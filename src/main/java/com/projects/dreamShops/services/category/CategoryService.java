@@ -9,6 +9,7 @@ import com.projects.dreamShops.exception.category.CategoryExistException;
 import com.projects.dreamShops.exception.category.CategoryNotFoundException;
 import com.projects.dreamShops.exchange.request.category.AddCategoryRequest;
 import com.projects.dreamShops.exchange.request.category.UpdateCategoryRequest;
+import com.projects.dreamShops.exchange.response.category.GetCategoryResponse;
 import com.projects.dreamShops.model.Category;
 import com.projects.dreamShops.repository.category.ICatgoryRepository;
 
@@ -31,8 +32,10 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public List<Category> getAllCategories() {
-        return catgoryRepository.findAll();
+    public List<GetCategoryResponse> getAllCategories() {
+        List<Category> categories = catgoryRepository.findAll();
+
+        return categories.stream().map(GetCategoryResponse::new).toList();
     }
 
     @Override
@@ -42,10 +45,10 @@ public class CategoryService implements ICategoryService {
         // return catgoryRepository.save(newCategory);
 
         return Optional.of(categoryRequest)
-        .filter(c-> !catgoryRepository.existsByName(c.getName()))
+                .filter(c -> !catgoryRepository.existsByName(c.getName()))
                 .map(request -> new Category(request.getName()))
                 .map(catgoryRepository::save)
-                .orElseThrow(() -> new CategoryExistException(categoryRequest.getName()+ "Category Already Exist!"));
+                .orElseThrow(() -> new CategoryExistException(categoryRequest.getName() + "Category Already Exist!"));
     }
 
     @Override

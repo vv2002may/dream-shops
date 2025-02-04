@@ -59,5 +59,8 @@ public class Product {
         this.category = productRequest.getCategory()==null? this.category : productRequest.getCategory();
 
     }
+    // public String getCategoryName() {
+    //     return this.category.getName();
+    // }
 
 }

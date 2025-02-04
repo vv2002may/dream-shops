@@ -1,3 +1,5 @@
+#javascript-----------
+
 # Logs
 logs
 *.log
@@ -17,12 +19,15 @@ dist-ssr
 !.vscode/extensions.json
 .idea
 .DS_Store
-*.suo
+*.suow
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
 .env
+
+
+#java------------
 
 HELP.md
 .gradle

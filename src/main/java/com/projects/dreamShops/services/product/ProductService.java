@@ -6,9 +6,9 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.projects.dreamShops.exception.product.ProductNotFoundException;
-import com.projects.dreamShops.exchange.request.category.AddCategoryRequest;
 import com.projects.dreamShops.exchange.request.product.AddProductRequest;
 import com.projects.dreamShops.exchange.request.product.UpdateProductRequest;
+import com.projects.dreamShops.exchange.response.product.GetProductResponse;
 import com.projects.dreamShops.model.Category;
 import com.projects.dreamShops.model.Product;
 import com.projects.dreamShops.repository.category.ICatgoryRepository;
@@ -24,15 +24,17 @@ public class ProductService implements IProductService {
     private final ICatgoryRepository categoryRepository;
 
     @Override
-    public Product addProduct(AddProductRequest productRequest, AddCategoryRequest categoryRequest) {
+    public GetProductResponse addProduct(AddProductRequest productRequest) {
 
-        Category category = Optional.ofNullable(categoryRepository.findByName(categoryRequest.getName()))
+        Category category = Optional.ofNullable(categoryRepository.findByName(productRequest.getCategory()))
                 .orElseGet(() -> {
-                    Category newCategory = new Category(categoryRequest.getName());
+                    Category newCategory = new Category(productRequest.getName());
                     return categoryRepository.save(newCategory);
                 });
         Product newProduct = new Product(productRequest, category);
-        return productRepository.save(newProduct);
+        productRepository.save(newProduct);
+        GetProductResponse getProductResponse = new GetProductResponse(newProduct);
+        return getProductResponse;
     }
 
     @Override
@@ -46,7 +48,7 @@ public class ProductService implements IProductService {
                 });
         productRequest.setCategory(category);
         product.updateProduct(productRequest);
-        
+
         return productRepository.save(product);
     }
 
@@ -58,13 +60,16 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public List<GetProductResponse> getAllProducts() {
+        List<Product> products= productRepository.findAll();
+        return products.stream().map(GetProductResponse::new).toList();
     }
 
     @Override
-    public Product getProductById(Long id) {
-        return productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product Not Found!"));
+    public GetProductResponse getProductById(Long id) {
+        Product product= productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product Not Found!"));
+
+        return new GetProductResponse(product);
     }
 
     @Override

@@ -6,7 +6,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.projects.dreamShops.exchange.response.image.ImageResponse;
 import com.projects.dreamShops.model.Image;
-import com.projects.dreamShops.model.Product;
 
 public interface IImageService {
     Image getImageById(Long id);
