@@ -38,18 +38,20 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product updateProduct(UpdateProductRequest productRequest, Long productId) {
+    public GetProductResponse updateProduct(UpdateProductRequest productRequest, Long productId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ProductNotFoundException("Product Not Found!"));
-        Category category = Optional.ofNullable(categoryRepository.findByName(productRequest.getCategory().getName()))
+        Category category = Optional.ofNullable(categoryRepository.findByName(productRequest.getCategory()))
                 .orElseGet(() -> {
-                    Category newCategory = new Category(productRequest.getCategory().getName());
+                    Category newCategory = new Category(productRequest.getCategory());
                     return categoryRepository.save(newCategory);
                 });
-        productRequest.setCategory(category);
+        product.setCategory(category);
         product.updateProduct(productRequest);
 
-        return productRepository.save(product);
+        productRepository.save(product);
+
+        return new GetProductResponse(product);
     }
 
     @Override
@@ -62,7 +64,7 @@ public class ProductService implements IProductService {
     @Override
     public List<GetProductResponse> getAllProducts() {
         List<Product> products= productRepository.findAll();
-        return products.stream().map(GetProductResponse::new).toList();
+        return Product.getProductResponses(products);
     }
 
     @Override
@@ -73,28 +75,34 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public List<Product> getProductsByCategory(String category) {
-        return productRepository.findByCategoryName(category);
+    public List<GetProductResponse> getProductsByCategory(String category) {
+        List<Product> products=productRepository.findByCategoryName(category);
+
+        return Product.getProductResponses(products);
     }
 
     @Override
-    public List<Product> getProductsByBrand(String brand) {
-        return productRepository.findByBrand(brand);
+    public List<GetProductResponse> getProductsByBrand(String brand) {
+        List<Product> products=productRepository.findByBrand(brand);
+        return Product.getProductResponses(products);
     }
 
     @Override
-    public List<Product> getProductsByCategoryAndBrand(String category, String brand) {
-        return productRepository.findByCategoryNameAndBrand(category, brand);
+    public List<GetProductResponse> getProductsByCategoryAndBrand(String category, String brand) {
+        List<Product> products= productRepository.findByCategoryNameAndBrand(category, brand);
+        return Product.getProductResponses(products);
     }
 
     @Override
-    public List<Product> getProductsByName(String name) {
-        return productRepository.findByName(name);
+    public List<GetProductResponse> getProductsByName(String name) {
+        List<Product> products= productRepository.findByName(name);
+        return Product.getProductResponses(products);
     }
 
     @Override
-    public List<Product> getProductsByBrandAndName(String brand, String name) {
-        return productRepository.findByBrandAndName(brand, name);
+    public List<GetProductResponse> getProductsByBrandAndName(String brand, String name) {
+        List<Product> products= productRepository.findByBrandAndName(brand, name);
+        return Product.getProductResponses(products);
     }
 
     @Override

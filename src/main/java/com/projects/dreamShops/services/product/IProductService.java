@@ -14,13 +14,13 @@ public interface IProductService {
     GetProductResponse getProductById(Long id);
 
     void deleteProduct(Long id);
-    Product updateProduct(UpdateProductRequest productRequest, Long productId);
+    GetProductResponse updateProduct(UpdateProductRequest productRequest, Long productId);
     
-    List<Product> getProductsByCategory(String category);
-    List<Product> getProductsByBrand(String brand);
-    List<Product> getProductsByCategoryAndBrand(String category, String brand);
-    List<Product> getProductsByName(String name);
-    List<Product> getProductsByBrandAndName(String brand, String name);
+    List<GetProductResponse> getProductsByCategory(String category);
+    List<GetProductResponse> getProductsByBrand(String brand);
+    List<GetProductResponse> getProductsByCategoryAndBrand(String category, String brand);
+    List<GetProductResponse> getProductsByName(String name);
+    List<GetProductResponse> getProductsByBrandAndName(String brand, String name);
 
     Long countProductsByBrandAndName(String brand, String name);
 }

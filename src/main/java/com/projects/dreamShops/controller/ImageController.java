@@ -1,8 +1,8 @@
 package com.projects.dreamShops.controller;
 
-import java.net.http.HttpHeaders;
 import java.util.List;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,14 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
+import org.springframework.http.MediaType;
 import com.projects.dreamShops.exception.Image.ImageNotFoundException;
 import com.projects.dreamShops.exchange.response.ApiResponse;
 import com.projects.dreamShops.exchange.response.image.ImageResponse;
 import com.projects.dreamShops.model.Image;
 import com.projects.dreamShops.services.image.IImageService;
 
-import io.swagger.v3.oas.models.media.MediaType;
 import lombok.RequiredArgsConstructor;
 
 @RestController

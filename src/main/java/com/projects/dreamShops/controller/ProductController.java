@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.projects.dreamShops.exception.product.ProductNotFoundException;
+import com.projects.dreamShops.exchange.request.category.UpdateCategoryRequest;
 import com.projects.dreamShops.exchange.request.product.AddProductRequest;
 import com.projects.dreamShops.exchange.request.product.UpdateProductRequest;
 import com.projects.dreamShops.exchange.response.ApiResponse;
@@ -38,17 +40,17 @@ public class ProductController {
     @GetMapping("/product/{id}")
     public ResponseEntity<ApiResponse> getProductById(@PathVariable Long id) {
         try {
-            return ResponseEntity.ok(new ApiResponse("Product fetched successfully", productService.getProductById(id)));
-        }
-        catch(ProductNotFoundException e){
+            return ResponseEntity
+                    .ok(new ApiResponse("Product fetched successfully", productService.getProductById(id)));
+        } catch (ProductNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ApiResponse(e.getMessage(), null));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse("Failed to fetch product", e.getMessage()));
         }
     }
+
     @DeleteMapping("/product/{id}")
     public ResponseEntity<ApiResponse> deleteProduct(@PathVariable Long id) {
         try {
@@ -66,7 +68,8 @@ public class ProductController {
     @PostMapping("/product/add")
     public ResponseEntity<ApiResponse> addProduct(@RequestBody AddProductRequest productRequest) {
         try {
-            return ResponseEntity.ok(new ApiResponse("Product added successfully", productService.addProduct(productRequest)));
+            return ResponseEntity
+                    .ok(new ApiResponse("Product added successfully", productService.addProduct(productRequest)));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse("Failed to add product", e.getMessage()));
@@ -74,9 +77,11 @@ public class ProductController {
     }
 
     @PutMapping("/product/{productId}")
-    public ResponseEntity<ApiResponse> updateProduct(@RequestBody UpdateProductRequest productRequest, @PathVariable Long productId) {
+    public ResponseEntity<ApiResponse> updateProduct(@RequestBody UpdateProductRequest productRequest,
+            @PathVariable Long productId) {
         try {
-            return ResponseEntity.ok(new ApiResponse("Product updated successfully", productService.updateProduct(productRequest, productId)));
+            return ResponseEntity.ok(new ApiResponse("Product updated successfully",
+                    productService.updateProduct(productRequest, productId)));
         } catch (ProductNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ApiResponse(e.getMessage(), null));
@@ -89,7 +94,8 @@ public class ProductController {
     @GetMapping("/category/{category}")
     public ResponseEntity<ApiResponse> getProductsByCategory(@PathVariable String category) {
         try {
-            return ResponseEntity.ok(new ApiResponse("Products fetched successfully", productService.getProductsByCategory(category)));
+            return ResponseEntity.ok(
+                    new ApiResponse("Products fetched successfully", productService.getProductsByCategory(category)));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse("Failed to fetch products", e.getMessage()));
@@ -99,7 +105,8 @@ public class ProductController {
     @GetMapping("/brand/{brand}")
     public ResponseEntity<ApiResponse> getProductsByBrand(@PathVariable String brand) {
         try {
-            return ResponseEntity.ok(new ApiResponse("Products fetched successfully", productService.getProductsByBrand(brand)));
+            return ResponseEntity
+                    .ok(new ApiResponse("Products fetched successfully", productService.getProductsByBrand(brand)));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse("Failed to fetch products", e.getMessage()));
@@ -107,18 +114,23 @@ public class ProductController {
     }
 
     @GetMapping("/category/{category}/brand/{brand}")
-    public ResponseEntity<ApiResponse> getProductsByCategoryAndBrand(@PathVariable String category, @PathVariable String brand) {
+    public ResponseEntity<ApiResponse> getProductsByCategoryAndBrand(@PathVariable String category,
+            @PathVariable String brand) {
         try {
-            return ResponseEntity.ok(new ApiResponse("Products fetched successfully", productService.getProductsByCategoryAndBrand(category, brand)));
+            return ResponseEntity.ok(new ApiResponse("Products fetched successfully",
+                    productService.getProductsByCategoryAndBrand(category, brand)));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse("Failed to fetch products", e.getMessage()));
         }
     }
+
     @GetMapping("/brand/{brand}/name/{name}")
-    public ResponseEntity<ApiResponse> getProductsByBrandAndName(@PathVariable String brand, @PathVariable String name) {
+    public ResponseEntity<ApiResponse> getProductsByBrandAndName(@PathVariable String brand,
+            @PathVariable String name) {
         try {
-            return ResponseEntity.ok(new ApiResponse("Products fetched successfully", productService.getProductsByBrandAndName(brand, name)));
+            return ResponseEntity.ok(new ApiResponse("Products fetched successfully",
+                    productService.getProductsByBrandAndName(brand, name)));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse("Failed to fetch products", e.getMessage()));
@@ -128,20 +140,23 @@ public class ProductController {
     @GetMapping("/name/{name}")
     public ResponseEntity<ApiResponse> getProductsByName(@PathVariable String name) {
         try {
-            return ResponseEntity.ok(new ApiResponse("Products fetched successfully", productService.getProductsByName(name)));
+            return ResponseEntity
+                    .ok(new ApiResponse("Products fetched successfully", productService.getProductsByName(name)));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse("Failed to fetch products", e.getMessage()));
         }
     }
- 
+
     @GetMapping("/count/brand/{brand}/name/{name}")
-    public ResponseEntity<ApiResponse> countProductsByBrandAndName(@PathVariable String brand, @PathVariable String name) {
+    public ResponseEntity<ApiResponse> countProductsByBrandAndName(@PathVariable String brand,
+            @PathVariable String name) {
         try {
-            return ResponseEntity.ok(new ApiResponse("Products fetched successfully", productService.countProductsByBrandAndName(brand, name)));
+            return ResponseEntity.ok(new ApiResponse("Products fetched successfully",
+                    productService.countProductsByBrandAndName(brand, name)));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse("Failed to fetch products", e.getMessage()));
         }
     }
-}   
+}

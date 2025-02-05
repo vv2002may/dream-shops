@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.projects.dreamShops.exchange.request.product.AddProductRequest;
 import com.projects.dreamShops.exchange.request.product.UpdateProductRequest;
+import com.projects.dreamShops.exchange.response.product.GetProductResponse;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -56,11 +57,12 @@ public class Product {
         this.price = productRequest.getPrice()==null? this.price : productRequest.getPrice();
         this.inventory = productRequest.getInventory()==0? this.inventory : productRequest.getInventory();
         this.description = productRequest.getDescription()==null? this.description : productRequest.getDescription();
-        this.category = productRequest.getCategory()==null? this.category : productRequest.getCategory();
+        // this.category = productRequest.getCategory()==null? this.category : productRequest.getCategory();
 
     }
-    // public String getCategoryName() {
-    //     return this.category.getName();
-    // }
+    
+    public static List<GetProductResponse> getProductResponses(List<Product> products) {
+        return products.stream().map(GetProductResponse::new).toList();
+    }
 
 }
