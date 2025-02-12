@@ -1,6 +1,10 @@
 package com.projects.dreamShops.model;
 
 import java.sql.Blob;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.projects.dreamShops.exchange.response.image.ImageResponse;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,4 +34,8 @@ public class Image {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
+
+    public static List<ImageResponse> imageResponses(List<Image> images) {
+        return images.stream().map(ImageResponse::new).collect(Collectors.toList());
+    }
 }

@@ -4,23 +4,28 @@ import java.util.List;
 
 import com.projects.dreamShops.exchange.request.product.AddProductRequest;
 import com.projects.dreamShops.exchange.request.product.UpdateProductRequest;
-import com.projects.dreamShops.exchange.response.product.GetProductResponse;
-import com.projects.dreamShops.model.Product;
+import com.projects.dreamShops.exchange.response.product.ProductResponse;
 
 public interface IProductService {
-    GetProductResponse addProduct(AddProductRequest productRequest);
+    ProductResponse addProduct(AddProductRequest productRequest);
 
-    List<GetProductResponse> getAllProducts();
-    GetProductResponse getProductById(Long id);
+    List<ProductResponse> getAllProducts();
+
+    ProductResponse getProductById(Long id);
 
     void deleteProduct(Long id);
-    GetProductResponse updateProduct(UpdateProductRequest productRequest, Long productId);
-    
-    List<GetProductResponse> getProductsByCategory(String category);
-    List<GetProductResponse> getProductsByBrand(String brand);
-    List<GetProductResponse> getProductsByCategoryAndBrand(String category, String brand);
-    List<GetProductResponse> getProductsByName(String name);
-    List<GetProductResponse> getProductsByBrandAndName(String brand, String name);
+
+    ProductResponse updateProduct(UpdateProductRequest productRequest, Long productId);
+
+    List<ProductResponse> getProductsByCategory(String category);
+
+    List<ProductResponse> getProductsByBrand(String brand);
+
+    List<ProductResponse> getProductsByCategoryAndBrand(String category, String brand);
+
+    List<ProductResponse> getProductsByName(String name);
+
+    List<ProductResponse> getProductsByBrandAndName(String brand, String name);
 
     Long countProductsByBrandAndName(String brand, String name);
 }

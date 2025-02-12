@@ -1,5 +1,7 @@
 package com.projects.dreamShops.exchange.response.image;
 
+import com.projects.dreamShops.model.Image;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,8 +10,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ImageResponse {
-    private Long imageId;
-    private String imageName;
+    private Long id;
+    private String fileName;
     private String downloadUrl;
+
+    public ImageResponse(Image image) {
+        this.id = image.getId();
+        this.fileName = image.getFileName();
+        this.downloadUrl = image.getDownloadUrl();
+    }
 
 }

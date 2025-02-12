@@ -9,7 +9,7 @@ import com.projects.dreamShops.exception.category.CategoryExistException;
 import com.projects.dreamShops.exception.category.CategoryNotFoundException;
 import com.projects.dreamShops.exchange.request.category.AddCategoryRequest;
 import com.projects.dreamShops.exchange.request.category.UpdateCategoryRequest;
-import com.projects.dreamShops.exchange.response.category.GetCategoryResponse;
+import com.projects.dreamShops.exchange.response.category.CategoryResponse;
 import com.projects.dreamShops.model.Category;
 import com.projects.dreamShops.repository.category.ICatgoryRepository;
 
@@ -22,20 +22,24 @@ public class CategoryService implements ICategoryService {
     private final ICatgoryRepository catgoryRepository;
 
     @Override
-    public Category getCategoryById(Long id) {
-        return catgoryRepository.findById(id).orElseThrow(() -> new CategoryNotFoundException("Category Not Found!"));
+    public CategoryResponse getCategoryById(Long id) {
+        Category category = catgoryRepository.findById(id)
+                .orElseThrow(() -> new CategoryNotFoundException("Category Not Found!"));
+
+        return new CategoryResponse(category);
     }
 
     @Override
-    public Category getCategoryByName(String name) {
-        return catgoryRepository.findByName(name);
+    public CategoryResponse getCategoryByName(String name) {
+        Category category = catgoryRepository.findByName(name);
+        return new CategoryResponse(category);
     }
 
     @Override
-    public List<GetCategoryResponse> getAllCategories() {
+    public List<CategoryResponse> getAllCategories() {
         List<Category> categories = catgoryRepository.findAll();
 
-        return categories.stream().map(GetCategoryResponse::new).toList();
+        return categories.stream().map(CategoryResponse::new).toList();
     }
 
     @Override

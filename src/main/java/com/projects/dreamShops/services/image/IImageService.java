@@ -8,6 +8,7 @@ import com.projects.dreamShops.exchange.response.image.ImageResponse;
 import com.projects.dreamShops.model.Image;
 
 public interface IImageService {
+    List<ImageResponse> getAllImages();
     Image getImageById(Long id);
     void deleteImageById(Long id);
     List<ImageResponse> saveImages(List<MultipartFile> file, Long productId);

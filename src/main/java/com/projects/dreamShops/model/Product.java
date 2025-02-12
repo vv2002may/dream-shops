@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.projects.dreamShops.exchange.request.product.AddProductRequest;
 import com.projects.dreamShops.exchange.request.product.UpdateProductRequest;
-import com.projects.dreamShops.exchange.response.product.GetProductResponse;
+import com.projects.dreamShops.exchange.response.product.ProductResponse;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -19,7 +19,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,7 +31,7 @@ public class Product {
     private String name;
     private String brand;
     private BigDecimal price;
-    private int inventory;//stock
+    private int inventory;// stock
     private String description;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -52,17 +51,15 @@ public class Product {
     }
 
     public void updateProduct(UpdateProductRequest productRequest) {
-        this.name = productRequest.getName()==null? this.name : productRequest.getName();
-        this.brand = productRequest.getBrand()==null? this.brand : productRequest.getBrand();
-        this.price = productRequest.getPrice()==null? this.price : productRequest.getPrice();
-        this.inventory = productRequest.getInventory()==0? this.inventory : productRequest.getInventory();
-        this.description = productRequest.getDescription()==null? this.description : productRequest.getDescription();
-        // this.category = productRequest.getCategory()==null? this.category : productRequest.getCategory();
-
+        this.name = productRequest.getName() == null ? this.name : productRequest.getName();
+        this.brand = productRequest.getBrand() == null ? this.brand : productRequest.getBrand();
+        this.price = productRequest.getPrice() == null ? this.price : productRequest.getPrice();
+        this.inventory = productRequest.getInventory() >= 0 ? this.inventory : productRequest.getInventory();
+        this.description = productRequest.getDescription() == null ? this.description : productRequest.getDescription();
     }
-    
-    public static List<GetProductResponse> getProductResponses(List<Product> products) {
-        return products.stream().map(GetProductResponse::new).toList();
+
+    public static List<ProductResponse> getProductResponses(List<Product> products) {
+        return products.stream().map(ProductResponse::new).toList();
     }
 
 }

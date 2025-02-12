@@ -12,7 +12,7 @@ public class SwaggerConfig {
                 openAPI.info(new io.swagger.v3.oas.models.info.Info()
                                 .title("Dream Shops API")
                                 .contact(new io.swagger.v3.oas.models.info.Contact()
-                                .name("Vimal Verma")));
+                                                .name("Vimal Verma")));
                 return openAPI;
         }
 }

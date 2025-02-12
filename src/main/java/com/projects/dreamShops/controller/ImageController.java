@@ -32,6 +32,17 @@ public class ImageController {
 
     private final IImageService imageService;
 
+    @GetMapping
+    public ResponseEntity<ApiResponse> getAllImages() {
+        try {
+            List<ImageResponse> imageResponses = imageService.getAllImages();
+            return ResponseEntity.ok(new ApiResponse("Get all images successful", imageResponses));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse("Get all images failed", e.getMessage()));
+        }
+    }
+
     @PostMapping("/upload")
     public ResponseEntity<ApiResponse> saveImages(@RequestParam List<MultipartFile> files,
             @RequestParam Long productId) {

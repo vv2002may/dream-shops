@@ -52,14 +52,10 @@ public class ImageService implements IImageService {
                 image.setImage(new SerialBlob(f.getBytes()));
                 image.setProduct(product);
                 Image savedImage = imageRepository.save(image);
-                savedImage.setDownloadUrl("/api/images/image/download/" + image.getId());
+                savedImage.setDownloadUrl("/api/v1/images/image/download/" + image.getId());
                 savedImage = imageRepository.save(image);
 
-                ImageResponse imageResponse = new ImageResponse();
-                imageResponse.setImageId(savedImage.getId());
-                imageResponse.setImageName(savedImage.getFileName());
-                imageResponse.setDownloadUrl(savedImage.getDownloadUrl());
-                return imageResponse;
+                return new ImageResponse(savedImage);
             } catch (IOException | SQLException e) {
                 throw new RuntimeException(e.getMessage());
             }
@@ -81,6 +77,12 @@ public class ImageService implements IImageService {
             throw new RuntimeException(e.getMessage());
         }
 
+    }
+
+    @Override
+    public List<ImageResponse> getAllImages() {
+        List<Image> images = imageRepository.findAll();
+        return Image.imageResponses(images);
     }
 
 }
