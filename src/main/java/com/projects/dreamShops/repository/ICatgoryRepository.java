@@ -1,4 +1,4 @@
-package com.projects.dreamShops.repository.category;
+package com.projects.dreamShops.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -10,5 +10,4 @@ public interface ICatgoryRepository extends JpaRepository<Category, Long> {
 
     boolean existsByName(String name);
 
-    
-} 
+}

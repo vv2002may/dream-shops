@@ -1,4 +1,4 @@
-package com.projects.dreamShops.exchange.request.product;
+package com.projects.dreamShops.exchange.request;
 
 import java.math.BigDecimal;
 
@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class UpdateProductRequest {
+public class ProductRequest {
     private String name;
     private String brand;
     private BigDecimal price;

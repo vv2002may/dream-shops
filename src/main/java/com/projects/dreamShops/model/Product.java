@@ -3,9 +3,8 @@ package com.projects.dreamShops.model;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.projects.dreamShops.exchange.request.product.AddProductRequest;
-import com.projects.dreamShops.exchange.request.product.UpdateProductRequest;
-import com.projects.dreamShops.exchange.response.product.ProductResponse;
+import com.projects.dreamShops.exchange.request.ProductRequest;
+import com.projects.dreamShops.exchange.response.ProductResponse;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -41,7 +40,7 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> image;
 
-    public Product(AddProductRequest productRequest, Category category) {
+    public Product(ProductRequest productRequest, Category category) {
         this.name = productRequest.getName();
         this.brand = productRequest.getBrand();
         this.price = productRequest.getPrice();
@@ -50,7 +49,7 @@ public class Product {
         this.category = category;
     }
 
-    public void updateProduct(UpdateProductRequest productRequest) {
+    public void updateProduct(ProductRequest productRequest) {
         this.name = productRequest.getName() == null ? this.name : productRequest.getName();
         this.brand = productRequest.getBrand() == null ? this.brand : productRequest.getBrand();
         this.price = productRequest.getPrice() == null ? this.price : productRequest.getPrice();

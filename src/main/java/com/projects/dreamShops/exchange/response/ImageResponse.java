@@ -1,4 +1,4 @@
-package com.projects.dreamShops.exchange.response.image;
+package com.projects.dreamShops.exchange.response;
 
 import com.projects.dreamShops.model.Image;
 

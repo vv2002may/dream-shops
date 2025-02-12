@@ -1,9 +1,8 @@
-package com.projects.dreamShops.exchange.response.product;
+package com.projects.dreamShops.exchange.response;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.projects.dreamShops.exchange.response.image.ImageResponse;
 import com.projects.dreamShops.model.Image;
 import com.projects.dreamShops.model.Product;
 

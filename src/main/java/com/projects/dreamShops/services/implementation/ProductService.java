@@ -1,18 +1,18 @@
-package com.projects.dreamShops.services.product;
+package com.projects.dreamShops.services.implementation;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.projects.dreamShops.exception.product.ProductNotFoundException;
-import com.projects.dreamShops.exchange.request.product.AddProductRequest;
-import com.projects.dreamShops.exchange.request.product.UpdateProductRequest;
-import com.projects.dreamShops.exchange.response.product.ProductResponse;
+import com.projects.dreamShops.exception.ResourceNotFoundException;
+import com.projects.dreamShops.exchange.request.ProductRequest;
+import com.projects.dreamShops.exchange.response.ProductResponse;
 import com.projects.dreamShops.model.Category;
 import com.projects.dreamShops.model.Product;
-import com.projects.dreamShops.repository.category.ICatgoryRepository;
-import com.projects.dreamShops.repository.product.IProductRepository;
+import com.projects.dreamShops.repository.ICatgoryRepository;
+import com.projects.dreamShops.repository.IProductRepository;
+import com.projects.dreamShops.services.IProductService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,7 +24,7 @@ public class ProductService implements IProductService {
     private final ICatgoryRepository categoryRepository;
 
     @Override
-    public ProductResponse addProduct(AddProductRequest productRequest) {
+    public ProductResponse addProduct(ProductRequest productRequest) {
 
         Category category = Optional.ofNullable(categoryRepository.findByName(productRequest.getCategory()))
                 .orElseGet(() -> {
@@ -38,9 +38,9 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public ProductResponse updateProduct(UpdateProductRequest productRequest, Long productId) {
+    public ProductResponse updateProduct(ProductRequest productRequest, Long productId) {
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new ProductNotFoundException("Product Not Found!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product Not Found!"));
         Category category = Optional.ofNullable(categoryRepository.findByName(productRequest.getCategory()))
                 .orElseGet(() -> {
                     Category newCategory = new Category(productRequest.getCategory());
@@ -57,7 +57,7 @@ public class ProductService implements IProductService {
     @Override
     public void deleteProduct(Long id) {
         productRepository.findById(id).ifPresentOrElse(productRepository::delete, () -> {
-            throw new ProductNotFoundException("Product Not Found!");
+            throw new ResourceNotFoundException("Product Not Found!");
         });
     }
 
@@ -70,7 +70,7 @@ public class ProductService implements IProductService {
     @Override
     public ProductResponse getProductById(Long id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ProductNotFoundException("Product Not Found!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product Not Found!"));
 
         return new ProductResponse(product);
     }

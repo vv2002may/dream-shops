@@ -11,11 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.projects.dreamShops.exception.product.ProductNotFoundException;
-import com.projects.dreamShops.exchange.request.product.AddProductRequest;
-import com.projects.dreamShops.exchange.request.product.UpdateProductRequest;
+import com.projects.dreamShops.exception.ResourceNotFoundException;
+import com.projects.dreamShops.exchange.request.ProductRequest;
 import com.projects.dreamShops.exchange.response.ApiResponse;
-import com.projects.dreamShops.services.product.IProductService;
+import com.projects.dreamShops.services.IProductService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -40,7 +39,7 @@ public class ProductController {
         try {
             return ResponseEntity
                     .ok(new ApiResponse("Product fetched successfully", productService.getProductById(id)));
-        } catch (ProductNotFoundException e) {
+        } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ApiResponse(e.getMessage(), null));
         } catch (Exception e) {
@@ -54,7 +53,7 @@ public class ProductController {
         try {
             productService.deleteProduct(id);
             return ResponseEntity.ok(new ApiResponse("Product deleted successfully", null));
-        } catch (ProductNotFoundException e) {
+        } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ApiResponse(e.getMessage(), null));
         } catch (Exception e) {
@@ -64,7 +63,7 @@ public class ProductController {
     }
 
     @PostMapping("/product/add")
-    public ResponseEntity<ApiResponse> addProduct(@RequestBody AddProductRequest productRequest) {
+    public ResponseEntity<ApiResponse> addProduct(@RequestBody ProductRequest productRequest) {
         try {
             return ResponseEntity
                     .ok(new ApiResponse("Product added successfully", productService.addProduct(productRequest)));
@@ -75,12 +74,12 @@ public class ProductController {
     }
 
     @PutMapping("/product/{productId}")
-    public ResponseEntity<ApiResponse> updateProduct(@RequestBody UpdateProductRequest productRequest,
+    public ResponseEntity<ApiResponse> updateProduct(@RequestBody ProductRequest productRequest,
             @PathVariable Long productId) {
         try {
             return ResponseEntity.ok(new ApiResponse("Product updated successfully",
                     productService.updateProduct(productRequest, productId)));
-        } catch (ProductNotFoundException e) {
+        } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ApiResponse(e.getMessage(), null));
         } catch (Exception e) {

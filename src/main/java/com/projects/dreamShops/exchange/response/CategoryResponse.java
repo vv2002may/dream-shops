@@ -1,8 +1,7 @@
-package com.projects.dreamShops.exchange.response.category;
+package com.projects.dreamShops.exchange.response;
 
 import java.util.List;
 
-import com.projects.dreamShops.exchange.response.product.ProductResponse;
 import com.projects.dreamShops.model.Category;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,5 +18,5 @@ public class CategoryResponse {
         this.name = category.getName();
         this.products = category.getProducts().stream().map(ProductResponse::new).toList();
     }
- 
+
 }

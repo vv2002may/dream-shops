@@ -17,12 +17,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.MediaType;
-import com.projects.dreamShops.exception.Image.ImageNotFoundException;
-import com.projects.dreamShops.exchange.response.ApiResponse;
-import com.projects.dreamShops.exchange.response.image.ImageResponse;
-import com.projects.dreamShops.model.Image;
-import com.projects.dreamShops.services.image.IImageService;
 
+import com.projects.dreamShops.exception.ResourceNotFoundException;
+import com.projects.dreamShops.exchange.response.ApiResponse;
+import com.projects.dreamShops.exchange.response.ImageResponse;
+import com.projects.dreamShops.model.Image;
+import com.projects.dreamShops.services.IImageService;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -44,7 +46,8 @@ public class ImageController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<ApiResponse> saveImages(@RequestParam List<MultipartFile> files,
+    public ResponseEntity<ApiResponse> saveImages(
+            @RequestBody List<MultipartFile> files,
             @RequestParam Long productId) {
         try {
             List<ImageResponse> imageResponses = imageService.saveImages(files, productId);
@@ -67,7 +70,7 @@ public class ImageController {
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + image.getFileName() + "\"")
                     .body(resource);
 
-        } catch (ImageNotFoundException e) {
+        } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ApiResponse(e.getMessage(), null));
         } catch (Exception e) {
@@ -93,7 +96,7 @@ public class ImageController {
         try {
             imageService.deleteImageById(imageId);
             return ResponseEntity.ok(new ApiResponse("Delete successful", null));
-        } catch (ImageNotFoundException e) {
+        } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ApiResponse(e.getMessage(), null));
         } catch (Exception e) {

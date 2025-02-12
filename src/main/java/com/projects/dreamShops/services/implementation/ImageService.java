@@ -1,4 +1,4 @@
-package com.projects.dreamShops.services.image;
+package com.projects.dreamShops.services.implementation;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -10,13 +10,13 @@ import javax.sql.rowset.serial.SerialBlob;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.projects.dreamShops.exception.Image.ImageNotFoundException;
-import com.projects.dreamShops.exception.product.ProductNotFoundException;
-import com.projects.dreamShops.exchange.response.image.ImageResponse;
+import com.projects.dreamShops.exception.ResourceNotFoundException;
+import com.projects.dreamShops.exchange.response.ImageResponse;
 import com.projects.dreamShops.model.Image;
 import com.projects.dreamShops.model.Product;
-import com.projects.dreamShops.repository.image.ImageRepository;
-import com.projects.dreamShops.repository.product.IProductRepository;
+import com.projects.dreamShops.repository.IProductRepository;
+import com.projects.dreamShops.repository.ImageRepository;
+import com.projects.dreamShops.services.IImageService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,20 +29,20 @@ public class ImageService implements IImageService {
 
     @Override
     public Image getImageById(Long id) {
-        return imageRepository.findById(id).orElseThrow(() -> new ImageNotFoundException("Image Not Found!"));
+        return imageRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Image Not Found!"));
     }
 
     @Override
     public void deleteImageById(Long id) {
         imageRepository.findById(id).ifPresentOrElse(imageRepository::delete, () -> {
-            throw new ImageNotFoundException("Image Not Found!");
+            throw new ResourceNotFoundException("Image Not Found!");
         });
     }
 
     @Override
     public List<ImageResponse> saveImages(List<MultipartFile> file, Long productId) {
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new ProductNotFoundException("Product Not Found!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product Not Found!"));
 
         List<ImageResponse> imageResponses = file.stream().map(f -> {
             try {
@@ -66,7 +66,7 @@ public class ImageService implements IImageService {
 
     @Override
     public Image updateImage(MultipartFile file, Long id) {
-        Image image = imageRepository.findById(id).orElseThrow(() -> new ImageNotFoundException("Image Not Found!"));
+        Image image = imageRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Image Not Found!"));
         try {
             image.setFileName(file.getOriginalFilename());
             image.setFileType(file.getContentType());
