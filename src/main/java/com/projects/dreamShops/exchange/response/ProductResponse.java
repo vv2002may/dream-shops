@@ -1,7 +1,6 @@
 package com.projects.dreamShops.exchange.response;
 
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -13,7 +12,7 @@ import lombok.Data;
 @Data
 public class ProductResponse {
 
-    private Long id;
+    private String id;
     private String name;
     private String brand;
     private BigDecimal price;

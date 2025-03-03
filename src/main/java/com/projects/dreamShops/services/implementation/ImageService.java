@@ -28,19 +28,19 @@ public class ImageService implements IImageService {
     private final IProductRepository productRepository;
 
     @Override
-    public Image getImageById(Long id) {
+    public Image getImageById(String id) {
         return imageRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Image Not Found!"));
     }
 
     @Override
-    public void deleteImageById(Long id) {
+    public void deleteImageById(String id) {
         imageRepository.findById(id).ifPresentOrElse(imageRepository::delete, () -> {
             throw new ResourceNotFoundException("Image Not Found!");
         });
     }
 
     @Override
-    public List<ImageResponse> saveImages(List<MultipartFile> file, Long productId) {
+    public List<ImageResponse> saveImages(List<MultipartFile> file, String productId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product Not Found!"));
 
@@ -49,14 +49,14 @@ public class ImageService implements IImageService {
                 Image image = new Image();
                 image.setFileName(f.getOriginalFilename());
                 image.setFileType(f.getContentType());
-                image.setImage(new SerialBlob(f.getBytes()));
+                image.setImage(f.getBytes());
                 image.setProduct(product);
                 Image savedImage = imageRepository.save(image);
                 savedImage.setDownloadUrl("/api/v1/images/image/download/" + image.getId());
                 savedImage = imageRepository.save(image);
 
                 return new ImageResponse(savedImage);
-            } catch (IOException | SQLException e) {
+            } catch (IOException e) {
                 throw new RuntimeException(e.getMessage());
             }
         }).collect(Collectors.toList());
@@ -65,14 +65,14 @@ public class ImageService implements IImageService {
     }
 
     @Override
-    public Image updateImage(MultipartFile file, Long id) {
+    public Image updateImage(MultipartFile file, String id) {
         Image image = imageRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Image Not Found!"));
         try {
             image.setFileName(file.getOriginalFilename());
             image.setFileType(file.getContentType());
-            image.setImage(new SerialBlob(file.getBytes()));
+            image.setImage(file.getBytes());
             return imageRepository.save(image);
-        } catch (IOException | SQLException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
         }

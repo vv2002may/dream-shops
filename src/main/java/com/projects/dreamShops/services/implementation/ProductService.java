@@ -32,13 +32,14 @@ public class ProductService implements IProductService {
                     return categoryRepository.save(newCategory);
                 });
         Product newProduct = new Product(productRequest, category);
+
         productRepository.save(newProduct);
         ProductResponse getProductResponse = new ProductResponse(newProduct);
         return getProductResponse;
     }
 
     @Override
-    public ProductResponse updateProduct(ProductRequest productRequest, Long productId) {
+    public ProductResponse updateProduct(ProductRequest productRequest, String productId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product Not Found!"));
         Category category = Optional.ofNullable(categoryRepository.findByName(productRequest.getCategory()))
@@ -55,7 +56,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public void deleteProduct(Long id) {
+    public void deleteProduct(String id) {
         productRepository.findById(id).ifPresentOrElse(productRepository::delete, () -> {
             throw new ResourceNotFoundException("Product Not Found!");
         });
@@ -68,7 +69,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public ProductResponse getProductById(Long id) {
+    public ProductResponse getProductById(String id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product Not Found!"));
 

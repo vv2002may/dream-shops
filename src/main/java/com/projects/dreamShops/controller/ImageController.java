@@ -47,7 +47,7 @@ public class ImageController {
     @PostMapping("/upload")
     public ResponseEntity<ApiResponse> saveImages(
             @RequestBody List<MultipartFile> files,
-            @RequestParam Long productId) {
+            @RequestParam String productId) {
         try {
             List<ImageResponse> imageResponses = imageService.saveImages(files, productId);
             return ResponseEntity.ok(new ApiResponse("Upload successful", imageResponses));
@@ -58,12 +58,12 @@ public class ImageController {
     }
 
     @GetMapping("/image/download/{imageId}")
-    public ResponseEntity<?> downloadImage(@PathVariable Long imageId) {
+    public ResponseEntity<?> downloadImage(@PathVariable String imageId) {
         try {
             Image image = imageService.getImageById(imageId);
 
             ByteArrayResource resource = new ByteArrayResource(
-                    image.getImage().getBytes(1, (int) image.getImage().length()));
+                    image.getImage());
 
             return ResponseEntity.ok().contentType(MediaType.parseMediaType(image.getFileType()))
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + image.getFileName() + "\"")
@@ -79,7 +79,7 @@ public class ImageController {
     }
 
     @PutMapping("/image/update/{imageId}")
-    public ResponseEntity<ApiResponse> updateImage(@RequestBody MultipartFile file, @PathVariable Long imageId) {
+    public ResponseEntity<ApiResponse> updateImage(@RequestBody MultipartFile file, @PathVariable String imageId) {
         try {
             Image image = imageService.updateImage(file, imageId);
             ImageResponse imageResponse = new ImageResponse(image.getId(), image.getFileName(), image.getDownloadUrl());
@@ -91,7 +91,7 @@ public class ImageController {
     }
 
     @DeleteMapping("/image/delete/{imageId}")
-    public ResponseEntity<ApiResponse> deleteImage(@PathVariable Long imageId) {
+    public ResponseEntity<ApiResponse> deleteImage(@PathVariable String imageId) {
         try {
             imageService.deleteImageById(imageId);
             return ResponseEntity.ok(new ApiResponse("Delete successful", null));

@@ -8,7 +8,7 @@ import com.projects.dreamShops.model.Category;
 
 public interface ICategoryService {
 
-    CategoryResponse getCategoryById(Long id);
+    CategoryResponse getCategoryById(String id);
 
     CategoryResponse getCategoryByName(String name);
 
@@ -16,8 +16,8 @@ public interface ICategoryService {
 
     Category addCategory(CategoryRequest categoryRequest);
 
-    Category updateCategory(CategoryRequest categoryRequest, Long id);
+    Category updateCategory(CategoryRequest categoryRequest, String id);
 
-    void deleteCategoryById(Long id);
+    void deleteCategoryById(String id);
 
 }

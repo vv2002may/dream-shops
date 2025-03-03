@@ -6,9 +6,9 @@ import com.projects.dreamShops.model.Cart;
 
 public interface ICartService {
 
-    Cart getCart(Long id);
+    Cart getCart(String id);
 
-    void clearCart(Long id);
+    void clearCart(String id);
 
-    BigDecimal getTotalAmount(Long id);
+    BigDecimal getTotalAmount(String id);
 }

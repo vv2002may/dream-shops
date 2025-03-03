@@ -10,11 +10,11 @@ import com.projects.dreamShops.model.Image;
 public interface IImageService {
     List<ImageResponse> getAllImages();
 
-    Image getImageById(Long id);
+    Image getImageById(String id);
 
-    void deleteImageById(Long id);
+    void deleteImageById(String id);
 
-    List<ImageResponse> saveImages(List<MultipartFile> file, Long productId);
+    List<ImageResponse> saveImages(List<MultipartFile> file, String productId);
 
-    Image updateImage(MultipartFile file, Long id);
+    Image updateImage(MultipartFile file, String id);
 }

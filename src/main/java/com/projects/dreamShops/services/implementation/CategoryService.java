@@ -22,7 +22,7 @@ public class CategoryService implements ICategoryService {
     private final ICatgoryRepository catgoryRepository;
 
     @Override
-    public CategoryResponse getCategoryById(Long id) {
+    public CategoryResponse getCategoryById(String id) {
         Category category = catgoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category Not Found!"));
 
@@ -57,7 +57,7 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public Category updateCategory(CategoryRequest categoryRequest, Long id) {
+    public Category updateCategory(CategoryRequest categoryRequest, String id) {
         Category category = catgoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category Not Found!"));
         category.setName(categoryRequest.getName());
@@ -65,7 +65,7 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public void deleteCategoryById(Long id) {
+    public void deleteCategoryById(String id) {
         catgoryRepository.findById(id).ifPresentOrElse(catgoryRepository::delete,
                 () -> new ResourceNotFoundException("Category Not Found!"));
     }

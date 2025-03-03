@@ -4,15 +4,12 @@ import java.sql.Blob;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import com.projects.dreamShops.exchange.response.ImageResponse;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,19 +17,17 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
+@Document
 public class Image {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
     private String fileName;
     private String fileType;
-    @Lob
-    private Blob image;
+
+    private byte[] image;
     private String downloadUrl;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
+    @DBRef
     private Product product;
 
     public static List<ImageResponse> imageResponses(List<Image> images) {

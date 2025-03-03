@@ -2,11 +2,11 @@ package com.projects.dreamShops.repository;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.projects.dreamShops.model.Product;
 
-public interface IProductRepository extends JpaRepository<Product, Long> {
+public interface IProductRepository extends MongoRepository<Product, String> {
 
     List<Product> findByCategoryName(String category);
 
