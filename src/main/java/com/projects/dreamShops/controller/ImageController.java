@@ -24,7 +24,6 @@ import com.projects.dreamShops.exchange.response.ImageResponse;
 import com.projects.dreamShops.model.Image;
 import com.projects.dreamShops.services.IImageService;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 
 @RestController

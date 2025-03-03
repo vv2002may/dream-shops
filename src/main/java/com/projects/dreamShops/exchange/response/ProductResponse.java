@@ -1,6 +1,8 @@
 package com.projects.dreamShops.exchange.response;
 
 import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import com.projects.dreamShops.model.Image;
@@ -28,7 +30,11 @@ public class ProductResponse {
         this.inventory = product.getInventory();
         this.description = product.getDescription();
         this.category = product.getCategory().getName();
-        this.images = Image.imageResponses(product.getImage());
+        if (product.getImage() != null)
+            this.images = Image.imageResponses(product.getImage());
+        else {
+            this.images = Collections.emptyList();
+        }
     }
 
 }
