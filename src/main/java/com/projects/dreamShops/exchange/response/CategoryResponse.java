@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class CategoryResponse {
-    private Long id;
+    private Long categoryId;
     private String name;
     private List<ProductResponse> products;
 
     public CategoryResponse(Category category) {
-        this.id = category.getId();
+        this.categoryId = category.getId();
         this.name = category.getName();
         this.products = category.getProducts().stream().map(ProductResponse::new).toList();
     }

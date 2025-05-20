@@ -33,12 +33,17 @@ public class Product {
     private int inventory;// stock
     private String description;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> image;
+
+    // to delete cartItem when product is deleted
+    // @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, orphanRemoval
+    // = true)
+    // private List<CartItem> cartItems;
 
     public Product(ProductRequest productRequest, Category category) {
         this.name = productRequest.getName();

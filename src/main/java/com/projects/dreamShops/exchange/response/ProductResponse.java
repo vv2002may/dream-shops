@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 public class ProductResponse {
 
-    private Long id;
+    private Long productId;
     private String name;
     private String brand;
     private BigDecimal price;
@@ -23,7 +23,7 @@ public class ProductResponse {
     private List<ImageResponse> images;
 
     public ProductResponse(Product product) {
-        this.id = product.getId();
+        this.productId = product.getId();
         this.name = product.getName();
         this.brand = product.getBrand();
         this.price = product.getPrice();

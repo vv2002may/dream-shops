@@ -1,22 +1,41 @@
 package com.projects.dreamShops.exception;
 
-// import org.springframework.http.HttpStatus;
-// import org.springframework.http.ProblemDetail;
-// import org.springframework.web.bind.annotation.ControllerAdvice;
-// import org.springframework.web.bind.annotation.ExceptionHandler;
-// import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
-// @ControllerAdvice
-// public class GlobalExceptionHandler {
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
-// @ExceptionHandler(NoHandlerFoundException.class)
-// public ProblemDetail handleNotFoundException(NoHandlerFoundException ex) {
-// ProblemDetail problemDetail =
-// ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, "Resource not found");
-// problemDetail.setTitle("Not Found!");
-// return problemDetail;
-// }
-// }
+@ControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<?> handleResourceNotFound(ResourceNotFoundException ex) {
+        Map<String, Object> errorBody = new HashMap<>();
+        errorBody.put("timestamp", LocalDateTime.now());
+        errorBody.put("status", HttpStatus.NOT_FOUND.value());
+        errorBody.put("error", "Resource Not Found");
+        errorBody.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(errorBody, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> exception(Exception ex) {
+        Map<String, Object> errorBody = new HashMap<>();
+        errorBody.put("timestamp", LocalDateTime.now());
+        errorBody.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        errorBody.put("error", "INTERNAL SERVER ERROR");
+        errorBody.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(errorBody, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    // You can add more handlers here, e.g., for IllegalArgumentException, etc.
+}
 
 // import org.springframework.stereotype.Controller;
 // import org.springframework.web.bind.annotation.ExceptionHandler;

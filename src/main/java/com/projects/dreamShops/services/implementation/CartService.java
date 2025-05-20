@@ -1,14 +1,17 @@
 package com.projects.dreamShops.services.implementation;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.projects.dreamShops.exception.ResourceNotFoundException;
+import com.projects.dreamShops.exchange.response.CartResponse;
 import com.projects.dreamShops.model.Cart;
 import com.projects.dreamShops.repository.ICartRepository;
 import com.projects.dreamShops.services.ICartService;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -18,23 +21,39 @@ public class CartService implements ICartService {
     public final ICartRepository cartRepository;
 
     @Override
-    public Cart getCart(Long id) {
-        Cart cart = cartRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Cart not found"));
+    public CartResponse getCart(Long id) {
+        Cart cart = cartRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Cart not found with Id " + id));
 
-        // cart.totalPriceUpdate();
-
-        return cart;
+        cart.totalPriceUpdate();
+        return new CartResponse(cartRepository.save(cart));
     }
 
     @Override
+    public List<CartResponse> getAllCart() {
+        List<Cart> cart = cartRepository.findAll();
+
+        return cart.stream().map(CartResponse::new).toList();
+    }
+
+    @Override
+    public void addCart() {
+        Cart cart = new Cart();
+        cartRepository.save(cart);
+    }
+
+    @Transactional
+    @Override
     public void clearCart(Long id) {
-        cartRepository.deleteAll();
+        Cart cart = cartRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Cart not found with Id " + id));
+        cartRepository.delete(cart);
     }
 
     @Override
     public BigDecimal getTotalAmount(Long id) {
-        Cart cart = getCart(id);
-        return cart.getTotalPrice();
+        CartResponse cartResponse = getCart(id);
+        return cartResponse.getTotalPrice();
     }
 
 }

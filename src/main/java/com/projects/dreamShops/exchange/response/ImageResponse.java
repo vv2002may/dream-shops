@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ImageResponse {
-    private Long id;
+    private Long imageId;
     private String fileName;
     private String downloadUrl;
 
     public ImageResponse(Image image) {
-        this.id = image.getId();
+        this.imageId = image.getId();
         this.fileName = image.getFileName();
         this.downloadUrl = image.getDownloadUrl();
     }
