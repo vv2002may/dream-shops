@@ -1,4 +1,4 @@
-package com.projects.dreamShops.services;
+package com.projects.dreamShops.services.cart;
 
 import java.math.BigDecimal;
 import java.util.List;

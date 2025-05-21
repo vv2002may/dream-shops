@@ -1,4 +1,4 @@
-package com.projects.dreamShops.services.implementation;
+package com.projects.dreamShops.services.image;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -16,7 +16,6 @@ import com.projects.dreamShops.model.Image;
 import com.projects.dreamShops.model.Product;
 import com.projects.dreamShops.repository.IProductRepository;
 import com.projects.dreamShops.repository.ImageRepository;
-import com.projects.dreamShops.services.IImageService;
 
 import lombok.RequiredArgsConstructor;
 

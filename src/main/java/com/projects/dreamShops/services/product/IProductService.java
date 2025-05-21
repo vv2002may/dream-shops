@@ -1,4 +1,4 @@
-package com.projects.dreamShops.services;
+package com.projects.dreamShops.services.product;
 
 import java.util.List;
 

@@ -22,7 +22,7 @@ import com.projects.dreamShops.exception.ResourceNotFoundException;
 import com.projects.dreamShops.exchange.response.ApiResponse;
 import com.projects.dreamShops.exchange.response.ImageResponse;
 import com.projects.dreamShops.model.Image;
-import com.projects.dreamShops.services.IImageService;
+import com.projects.dreamShops.services.image.IImageService;
 
 import lombok.RequiredArgsConstructor;
 

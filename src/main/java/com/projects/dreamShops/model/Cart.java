@@ -27,7 +27,7 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private BigDecimal totalPrice = BigDecimal.ZERO;
+    private BigDecimal totalAmount = BigDecimal.ZERO;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     // private Set<CartItem> cartItems = new HashSet<>();
@@ -37,19 +37,19 @@ public class Cart {
     // return new ArrayList<>(cartItems);
     // }
 
-    public void totalPriceUpdate() {
-        this.totalPrice = cartItems.stream()
+    public void totalAmountUpdate() {
+        this.totalAmount = cartItems.stream()
                 .map(CartItem::getTotalPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public void addCartItem(CartItem cartItem) {
         this.cartItems.add(cartItem);
-        totalPriceUpdate();
+        totalAmountUpdate();
     }
 
     public void removeCartItem(CartItem cartItem) {
         this.cartItems.remove(cartItem);
-        totalPriceUpdate();
+        totalAmountUpdate();
     }
 }

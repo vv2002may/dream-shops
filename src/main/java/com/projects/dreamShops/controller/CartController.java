@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.projects.dreamShops.exchange.response.ApiResponse;
 import com.projects.dreamShops.exchange.response.CartResponse;
-import com.projects.dreamShops.services.ICartService;
+import com.projects.dreamShops.services.cart.ICartService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -48,7 +48,6 @@ public class CartController {
     @DeleteMapping("/{cartId}")
     public ResponseEntity<ApiResponse> clearCart(@PathVariable Long cartId) {
         cartService.clearCart(cartId);
-
         return ResponseEntity.ok(new ApiResponse("Success", null));
     }
 }

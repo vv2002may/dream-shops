@@ -1,4 +1,4 @@
-package com.projects.dreamShops.services.implementation;
+package com.projects.dreamShops.services.cart;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -9,7 +9,6 @@ import com.projects.dreamShops.exception.ResourceNotFoundException;
 import com.projects.dreamShops.exchange.response.CartResponse;
 import com.projects.dreamShops.model.Cart;
 import com.projects.dreamShops.repository.ICartRepository;
-import com.projects.dreamShops.services.ICartService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +24,7 @@ public class CartService implements ICartService {
         Cart cart = cartRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Cart not found with Id " + id));
 
-        cart.totalPriceUpdate();
+        cart.totalAmountUpdate();
         return new CartResponse(cartRepository.save(cart));
     }
 

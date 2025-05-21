@@ -1,4 +1,4 @@
-package com.projects.dreamShops.services.implementation;
+package com.projects.dreamShops.services.category;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +11,6 @@ import com.projects.dreamShops.exchange.request.CategoryRequest;
 import com.projects.dreamShops.exchange.response.CategoryResponse;
 import com.projects.dreamShops.model.Category;
 import com.projects.dreamShops.repository.ICatgoryRepository;
-import com.projects.dreamShops.services.ICategoryService;
 
 import lombok.RequiredArgsConstructor;
 

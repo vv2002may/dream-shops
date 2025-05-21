@@ -1,4 +1,4 @@
-package com.projects.dreamShops.services.implementation;
+package com.projects.dreamShops.services.cart;
 
 import java.util.List;
 
@@ -13,7 +13,6 @@ import com.projects.dreamShops.model.Product;
 import com.projects.dreamShops.repository.ICartItemRepository;
 import com.projects.dreamShops.repository.ICartRepository;
 import com.projects.dreamShops.repository.IProductRepository;
-import com.projects.dreamShops.services.ICartItemService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,11 +27,15 @@ public class CartItemService implements ICartItemService {
     @Override
     public CartResponse addItemToCart(Long cartId, Long productId, int quantity) {
 
-        List<CartItem> cartItems = cartItemRepository.findAll();
-        CartItem cartItem = cartItems.stream()
-                .filter(item -> item.getProduct().getId().equals(productId)
-                        && item.getCart().getId().equals(cartId))
-                .findFirst().orElse(new CartItem());
+        // List<CartItem> cartItems = cartItemRepository.findAll();
+        // CartItem cartItem = cartItems.stream()
+        // .filter(item -> item.getProduct().getId().equals(productId)
+        // && item.getCart().getId().equals(cartId))
+        // .findFirst().orElse(new CartItem());
+
+        CartItem cartItem = cartItemRepository.findByProductIdAndCartId(productId, cartId)
+                .orElse(new CartItem());
+
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product Not Found!"));
 
@@ -41,7 +44,11 @@ public class CartItemService implements ICartItemService {
 
         if (cartItem.getId() == null) {
             cartItem.setProduct(product);
-            cartItem.setQuantity(quantity);
+            if (product.getInventory() < quantity) {
+                cartItem.setQuantity(product.getInventory());
+            } else {
+                cartItem.setQuantity(quantity);
+            }
             cartItem.setCart(cart);
             cartItem.setUnitPrice(product.getPrice());
 

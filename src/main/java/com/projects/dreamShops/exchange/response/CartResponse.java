@@ -19,7 +19,7 @@ public class CartResponse {
 
     public CartResponse(Cart cart) {
         this.cartId = cart.getId();
-        this.totalPrice = cart.getTotalPrice();
+        this.totalPrice = cart.getTotalAmount();
         this.cartItems = cart.getCartItems().stream().map(CartItemResponse::new).toList();
     }
 }

@@ -1,4 +1,4 @@
-package com.projects.dreamShops.services.implementation;
+package com.projects.dreamShops.services.product;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +12,6 @@ import com.projects.dreamShops.model.Category;
 import com.projects.dreamShops.model.Product;
 import com.projects.dreamShops.repository.ICatgoryRepository;
 import com.projects.dreamShops.repository.IProductRepository;
-import com.projects.dreamShops.services.IProductService;
 
 import lombok.RequiredArgsConstructor;
 

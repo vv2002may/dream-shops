@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.projects.dreamShops.exception.ResourceNotFoundException;
 import com.projects.dreamShops.exchange.request.ProductRequest;
 import com.projects.dreamShops.exchange.response.ApiResponse;
-import com.projects.dreamShops.services.IProductService;
+import com.projects.dreamShops.services.product.IProductService;
 
 import lombok.RequiredArgsConstructor;
 

@@ -7,7 +7,7 @@ import com.projects.dreamShops.exception.ResourceAlreadyExistException;
 import com.projects.dreamShops.exception.ResourceNotFoundException;
 import com.projects.dreamShops.exchange.request.CategoryRequest;
 import com.projects.dreamShops.exchange.response.ApiResponse;
-import com.projects.dreamShops.services.ICategoryService;
+import com.projects.dreamShops.services.category.ICategoryService;
 
 import lombok.RequiredArgsConstructor;
 

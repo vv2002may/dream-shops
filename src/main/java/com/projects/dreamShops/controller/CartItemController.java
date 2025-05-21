@@ -15,7 +15,7 @@ import com.projects.dreamShops.exchange.response.ApiResponse;
 import com.projects.dreamShops.exchange.response.CartItemResponse;
 import com.projects.dreamShops.exchange.response.CartResponse;
 import com.projects.dreamShops.model.Cart;
-import com.projects.dreamShops.services.ICartItemService;
+import com.projects.dreamShops.services.cart.ICartItemService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -41,19 +41,14 @@ public class CartItemController {
 
     @DeleteMapping
     public ResponseEntity<ApiResponse> removeCartItem(@RequestParam Long cartId, @RequestParam Long cartItemId) {
-
         cartItemService.removeItemFromCart(cartId, cartItemId);
-
         return ResponseEntity.ok(new ApiResponse("Success", null));
-
     }
 
     @PutMapping
     public ResponseEntity<ApiResponse> updateCartItemQuantity(@RequestParam Long cartId, @RequestParam Long cartItemId,
             @RequestParam int quantity) {
-
         cartItemService.updateItemQuantity(cartId, cartItemId, quantity);
-
         return ResponseEntity.ok(new ApiResponse("Success", null));
     }
 }

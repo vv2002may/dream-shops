@@ -1,4 +1,4 @@
-package com.projects.dreamShops.services;
+package com.projects.dreamShops.services.image;
 
 import java.util.List;
 
