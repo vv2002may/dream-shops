@@ -1,6 +1,9 @@
 package com.projects.dreamShops.model;
 
 import java.math.BigDecimal;
+import java.util.List;
+
+import com.projects.dreamShops.exchange.response.ProductResponse;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

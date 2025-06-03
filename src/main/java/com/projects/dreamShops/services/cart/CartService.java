@@ -1,6 +1,7 @@
 package com.projects.dreamShops.services.cart;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -20,9 +21,9 @@ public class CartService implements ICartService {
     public final ICartRepository cartRepository;
 
     @Override
-    public CartResponse getCart(Long id) {
-        Cart cart = cartRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Cart not found with Id " + id));
+    public CartResponse getCart(Long cartId) {
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cart not found with Id " + cartId));
 
         cart.totalAmountUpdate();
         return new CartResponse(cartRepository.save(cart));
@@ -43,16 +44,26 @@ public class CartService implements ICartService {
 
     @Transactional
     @Override
-    public void clearCart(Long id) {
-        Cart cart = cartRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Cart not found with Id " + id));
-        cartRepository.delete(cart);
+    public void clearCart(Long cartId) {
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cart not found with Id " + cartId));
+        cart.setCartItems(new ArrayList<>());
+        // cartRepository.delete(cart);
+        cartRepository.save(cart);
     }
 
     @Override
-    public BigDecimal getTotalAmount(Long id) {
-        CartResponse cartResponse = getCart(id);
+    public BigDecimal getTotalAmount(Long cartId) {
+        CartResponse cartResponse = getCart(cartId);
         return cartResponse.getTotalPrice();
+    }
+
+    @Override
+    public Cart getCartByUserId(Long userId) {
+        Cart cart = cartRepository.findByUserId(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cart not found with userId " + userId));
+
+        return cart;
     }
 
 }

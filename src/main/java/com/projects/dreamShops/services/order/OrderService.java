@@ -1,14 +1,20 @@
 package com.projects.dreamShops.services.order;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.projects.dreamShops.enums.OrderStatus;
+import com.projects.dreamShops.exception.ResourceNotFoundException;
 import com.projects.dreamShops.model.Cart;
 import com.projects.dreamShops.model.Order;
 import com.projects.dreamShops.model.OrderItem;
 import com.projects.dreamShops.repository.ICartRepository;
 import com.projects.dreamShops.repository.IOrderRepository;
+import com.projects.dreamShops.services.cart.ICartService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,20 +24,44 @@ public class OrderService implements IOrderService {
 
     private final IOrderRepository orderRepository;
     private final ICartRepository cartRepository;
+    private final ICartService cartService;
 
-    @Override
-    public Order placeOrder(Long userId) {
-        return null;
-    }
-
-    @Override
+    // @Override
     public Order getOrderById(Long orderId) {
-        return null;
+        return orderRepository.findById(orderId)
+                .orElseThrow(() -> new ResourceNotFoundException("order not found with id " + orderId));
     }
 
     @Override
     public List<OrderItem> createOrderItem(Order order, Cart cart) {
         return null;
+    }
+
+    public Order createOrder(Cart cart) {
+        Order order = new Order();
+        order.setOrderStatus(OrderStatus.PENDING);
+        order.setOrderDate(LocalDate.now());
+        return order;
+    }
+
+    public Order placeOrder(Long userId) {
+        Cart cart = cartService.getCartByUserId(userId);
+        Order order = createOrder(cart);
+
+        List<OrderItem> orderItems = createOrderItem(order, cart);
+        order.setOrderItems(new ArrayList<>(orderItems));
+        order.setTotalAmount(calculateTotalAmount(orderItems));
+        Order savedOrder = orderRepository.save(order);
+
+        cartService.clearCart(cart.getId());
+        return savedOrder;
+    }
+
+    private BigDecimal calculateTotalAmount(List<OrderItem> orderItems) {
+        return orderItems
+                .stream()
+                .map(item -> item.getTotalPrice())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
 }

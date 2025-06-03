@@ -12,9 +12,11 @@ public interface ICartService {
 
     List<CartResponse> getAllCart();
 
-    CartResponse getCart(Long id);
+    CartResponse getCart(Long cartId);
 
-    void clearCart(Long id);
+    void clearCart(Long cartId);
 
-    BigDecimal getTotalAmount(Long id);
+    BigDecimal getTotalAmount(Long cartId);
+
+    Cart getCartByUserId(Long userId);
 }
