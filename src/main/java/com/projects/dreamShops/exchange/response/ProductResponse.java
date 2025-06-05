@@ -22,6 +22,7 @@ public class ProductResponse {
     private String category;
     private List<ImageResponse> images;
 
+    // instead of constructor, model mapper can be used
     public ProductResponse(Product product) {
         this.productId = product.getId();
         this.name = product.getName();

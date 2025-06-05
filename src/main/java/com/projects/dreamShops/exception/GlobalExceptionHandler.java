@@ -23,6 +23,17 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorBody, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(ResourceAlreadyExistException.class)
+    public ResponseEntity<?> handleResourceAlreadyExist(ResourceAlreadyExistException ex) {
+        Map<String, Object> errorBody = new HashMap<>();
+        errorBody.put("timestamp", LocalDateTime.now());
+        errorBody.put("status", HttpStatus.CONFLICT.value());
+        errorBody.put("error", "Resource Already Exists");
+        errorBody.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(errorBody, HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> exception(Exception ex) {
         Map<String, Object> errorBody = new HashMap<>();

@@ -37,9 +37,9 @@ public class CartService implements ICartService {
     }
 
     @Override
-    public void addCart() {
+    public Cart addCart() {
         Cart cart = new Cart();
-        cartRepository.save(cart);
+        return cartRepository.save(cart);
     }
 
     @Transactional

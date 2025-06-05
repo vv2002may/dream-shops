@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.projects.dreamShops.model.Cart;
+import com.projects.dreamShops.model.Users;
 
 import lombok.Data;
 
@@ -12,14 +13,13 @@ import lombok.Data;
 public class CartResponse {
     private Long cartId;
     private BigDecimal totalPrice = BigDecimal.ZERO;
-
-    // private Set<CartItem> cartItems = Collections.newSetFromMap(new
-    // ConcurrentHashMap<>());
+    private Long userId;
     private List<CartItemResponse> cartItems = new ArrayList<>();
 
     public CartResponse(Cart cart) {
         this.cartId = cart.getId();
         this.totalPrice = cart.getTotalAmount();
+        this.userId = cart.getUser().getId();
         this.cartItems = cart.getCartItems().stream().map(CartItemResponse::new).toList();
     }
 }

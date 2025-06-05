@@ -3,12 +3,14 @@ package com.projects.dreamShops.services.users;
 import java.util.List;
 
 import com.projects.dreamShops.exchange.request.UsersRequest;
-import com.projects.dreamShops.model.Order;
+import com.projects.dreamShops.model.Orders;
 import com.projects.dreamShops.model.Users;
 
 public interface IUsersService {
 
     Users getUsersById(Long userId);
+
+    List<Users> getAllUsers();
 
     Users createUsers(UsersRequest userRequest);
 
@@ -16,5 +18,5 @@ public interface IUsersService {
 
     void deleteUsers(Long userId);
 
-    List<Order> getAllOrders(Long userId);
+    List<Orders> getAllOrders(Long userId);
 }

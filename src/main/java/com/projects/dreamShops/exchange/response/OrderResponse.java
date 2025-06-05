@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.projects.dreamShops.enums.OrderStatus;
-import com.projects.dreamShops.model.Order;
+import com.projects.dreamShops.model.Orders;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,7 +23,7 @@ public class OrderResponse {
     private List<OrderItemResponse> orderItems;
     private Long userId;
 
-    public OrderResponse(Order order) {
+    public OrderResponse(Orders order) {
         this.orderId = order.getId();
         this.orderDate = order.getOrderDate();
         this.totalAmount = order.getTotalAmount();

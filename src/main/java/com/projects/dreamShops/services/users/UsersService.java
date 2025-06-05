@@ -7,9 +7,12 @@ import org.springframework.stereotype.Service;
 import com.projects.dreamShops.exception.ResourceAlreadyExistException;
 import com.projects.dreamShops.exception.ResourceNotFoundException;
 import com.projects.dreamShops.exchange.request.UsersRequest;
-import com.projects.dreamShops.model.Order;
+import com.projects.dreamShops.model.Cart;
+import com.projects.dreamShops.model.Orders;
 import com.projects.dreamShops.model.Users;
+import com.projects.dreamShops.repository.ICartRepository;
 import com.projects.dreamShops.repository.IUsersRepository;
+import com.projects.dreamShops.services.cart.ICartService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,6 +21,8 @@ import lombok.RequiredArgsConstructor;
 public class UsersService implements IUsersService {
 
     private final IUsersRepository usersRepository;
+    private final ICartService cartService;
+    private final ICartRepository cartRepository;
 
     @Override
     public Users getUsersById(Long userId) {
@@ -26,14 +31,23 @@ public class UsersService implements IUsersService {
     }
 
     @Override
-    public Users createUsers(UsersRequest userRequest) {
-        Boolean isUser = usersRepository.existsByEmail(userRequest.getEmail());
-        if (isUser) {
-            throw new ResourceAlreadyExistException("User already exists with email " + userRequest.getEmail());
-        }
-        Users user = new Users(userRequest);
+    public List<Users> getAllUsers() {
+        return usersRepository.findAll();
+    }
 
-        return usersRepository.save(user);
+    @Override
+    public Users createUsers(UsersRequest usersRequest) {
+        Boolean isUser = usersRepository.existsByEmail(usersRequest.getEmail());
+        if (isUser) {
+            throw new ResourceAlreadyExistException("User already exists with email " + usersRequest.getEmail());
+        }
+        Users user = new Users(usersRequest);
+        Cart cart = cartService.addCart();
+        user.setCart(cart);
+        cart.setUser(user);
+        Users savedUser = usersRepository.save(user);
+        cartRepository.save(cart);
+        return savedUser;
     }
 
     @Override
@@ -53,9 +67,9 @@ public class UsersService implements IUsersService {
     }
 
     @Override
-    public List<Order> getAllOrders(Long userId) {
+    public List<Orders> getAllOrders(Long userId) {
         Users user = getUsersById(userId);
-        return user.getOrder();
+        return user.getOrders();
     }
 
 }

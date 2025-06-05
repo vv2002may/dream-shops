@@ -51,11 +51,11 @@ public class CategoryController {
         }
     }
 
-    @GetMapping("/category/{id}")
-    public ResponseEntity<ApiResponse> getCategoryById(@PathVariable Long id) {
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<ApiResponse> getCategoryById(@PathVariable Long categoryId) {
         try {
             return ResponseEntity
-                    .ok(new ApiResponse("Category fetched successfully", categoryService.getCategoryById(id)));
+                    .ok(new ApiResponse("Category fetched successfully", categoryService.getCategoryById(categoryId)));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ApiResponse(e.getMessage(), null));
@@ -79,10 +79,10 @@ public class CategoryController {
         }
     }
 
-    @DeleteMapping("/category/{id}")
-    public ResponseEntity<ApiResponse> deleteCategory(@PathVariable Long id) {
+    @DeleteMapping("/category/{categoryId}")
+    public ResponseEntity<ApiResponse> deleteCategory(@PathVariable Long categoryId) {
         try {
-            categoryService.deleteCategoryById(id);
+            categoryService.deleteCategoryById(categoryId);
             return ResponseEntity.ok(new ApiResponse("Category deleted successfully", null));
         }
 
@@ -95,11 +95,13 @@ public class CategoryController {
         }
     }
 
-    @PutMapping("/category/{id}")
-    public ResponseEntity<ApiResponse> updateCategory(@RequestParam CategoryRequest name, @PathVariable Long id) {
+    @PutMapping("/category/{categoryId}")
+    public ResponseEntity<ApiResponse> updateCategory(@RequestParam CategoryRequest name,
+            @PathVariable Long categoryId) {
         try {
             return ResponseEntity
-                    .ok(new ApiResponse("Category updated successfully", categoryService.updateCategory(name, id)));
+                    .ok(new ApiResponse("Category updated successfully",
+                            categoryService.updateCategory(name, categoryId)));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ApiResponse(e.getMessage(), null));

@@ -8,7 +8,7 @@ import com.projects.dreamShops.model.Cart;
 
 public interface ICartService {
 
-    void addCart();
+    Cart addCart();
 
     List<CartResponse> getAllCart();
 

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.projects.dreamShops.exchange.response.ApiResponse;
 import com.projects.dreamShops.exchange.response.OrderResponse;
-import com.projects.dreamShops.model.Order;
+import com.projects.dreamShops.model.Orders;
 import com.projects.dreamShops.services.order.IOrderService;
 
 import lombok.RequiredArgsConstructor;
@@ -29,13 +29,13 @@ public class OrderController {
 
     @PostMapping("/{userId}")
     ResponseEntity<ApiResponse> createOrder(@PathVariable Long userId) {
-        Order order = orderService.placeOrder(userId);
+        Orders order = orderService.placeOrder(userId);
         return ResponseEntity.ok(new ApiResponse("success", new OrderResponse(order)));
     }
 
     @GetMapping("/{userId}")
     public ResponseEntity<ApiResponse> getOrderById(@PathVariable Long orderId) {
-        Order order = orderService.getOrderById(orderId);
+        Orders order = orderService.getOrderById(orderId);
         return ResponseEntity.ok(new ApiResponse("success", new OrderResponse(order)));
 
     }

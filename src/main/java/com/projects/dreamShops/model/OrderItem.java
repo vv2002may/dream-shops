@@ -35,7 +35,7 @@ public class OrderItem {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    private Order order;
+    private Orders order;
 
     public void setTotalPrice() {
         this.totalPrice = this.unitPrice.multiply(BigDecimal.valueOf(this.quantity));

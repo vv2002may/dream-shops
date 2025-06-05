@@ -3,15 +3,15 @@ package com.projects.dreamShops.services.order;
 import java.util.List;
 
 import com.projects.dreamShops.model.Cart;
-import com.projects.dreamShops.model.Order;
+import com.projects.dreamShops.model.Orders;
 import com.projects.dreamShops.model.OrderItem;
 
 public interface IOrderService {
 
-    Order placeOrder(Long userId);
+    Orders placeOrder(Long userId);
 
-    Order getOrderById(Long orderId);
+    Orders getOrderById(Long orderId);
 
-    List<OrderItem> createOrderItem(Order order, Cart cart);
+    List<OrderItem> createOrderItem(Orders order, Cart cart);
 
 }

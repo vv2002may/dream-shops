@@ -15,7 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,7 +32,6 @@ public class Users {
     private String lastName;
 
     @NaturalId
-    @UniqueElements
     private String email;
     private String password;
 
@@ -40,7 +39,7 @@ public class Users {
     private Cart cart;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Order> order;
+    private List<Orders> orders;
 
     public Users(UsersRequest usersRequest) {
         this.firstName = usersRequest.getFirstName();
@@ -48,6 +47,6 @@ public class Users {
         this.email = usersRequest.getEmail();
         this.password = usersRequest.getPassword();
         this.cart = null;
-        this.order = new ArrayList<>();
+        this.orders = new ArrayList<>();
     }
 }
