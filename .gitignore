@@ -30,6 +30,7 @@ dist-ssr
 #java------------
 
 HELP.md
+/target
 .gradle
 /build/
 */build/

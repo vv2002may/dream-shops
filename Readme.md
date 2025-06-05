@@ -93,15 +93,3 @@ Swagger UI: [http://localhost:8080/swagger-ui](http://localhost:8080/swagger-ui)
 
 - Returns JSON error responses with appropriate HTTP status codes.
 - Custom error pages for 404 (not found).
-
----
-
-## License
-
-This project is licensed under the Apache License 2.0.
-
----
-
-## Author
-
-- Vimal Verma
