@@ -32,7 +32,6 @@ public class CartService implements ICartService {
     @Override
     public List<CartResponse> getAllCart() {
         List<Cart> cart = cartRepository.findAll();
-
         return cart.stream().map(CartResponse::new).toList();
     }
 
@@ -47,8 +46,7 @@ public class CartService implements ICartService {
     public void clearCart(Long cartId) {
         Cart cart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new ResourceNotFoundException("Cart not found with Id " + cartId));
-        cart.setCartItems(new ArrayList<>());
-        // cartRepository.delete(cart);
+        cart.getCartItems().clear();
         cartRepository.save(cart);
     }
 

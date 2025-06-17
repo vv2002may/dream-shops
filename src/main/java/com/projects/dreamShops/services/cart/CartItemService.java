@@ -27,12 +27,6 @@ public class CartItemService implements ICartItemService {
     @Override
     public CartResponse addItemToCart(Long cartId, Long productId, int quantity) {
 
-        // List<CartItem> cartItems = cartItemRepository.findAll();
-        // CartItem cartItem = cartItems.stream()
-        // .filter(item -> item.getProduct().getId().equals(productId)
-        // && item.getCart().getId().equals(cartId))
-        // .findFirst().orElse(new CartItem());
-
         CartItem cartItem = cartItemRepository.findByProductIdAndCartId(productId, cartId)
                 .orElse(new CartItem());
 
@@ -42,9 +36,13 @@ public class CartItemService implements ICartItemService {
         Cart cart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new ResourceNotFoundException("Cart Not Found"));
 
+        if (product.getInventory() == 0) {
+            throw new ResourceNotFoundException("Product is out of stock");
+        }
+
         if (cartItem.getId() == null) {
             cartItem.setProduct(product);
-            if (product.getInventory() < quantity) {
+            if (product.getInventory() <= quantity) {
                 cartItem.setQuantity(product.getInventory());
             } else {
                 cartItem.setQuantity(quantity);
@@ -53,13 +51,16 @@ public class CartItemService implements ICartItemService {
             cartItem.setUnitPrice(product.getPrice());
 
         } else {
-            cartItem.setQuantity(quantity + cartItem.getQuantity());
+            if (product.getInventory() <= quantity + cartItem.getQuantity() || product.getInventory() == 0) {
+                cartItem.setQuantity(product.getInventory());
+            } else {
+                cartItem.setQuantity(quantity + cartItem.getQuantity());
+            }
         }
         cartItem.setTotalPrice();
         cartItemRepository.save(cartItem);
         cart.addCartItem(cartItem);
         cartRepository.save(cart);
-        // return new CartItemResponse(cartItem);
         return new CartResponse(cart);
 
     }
@@ -87,9 +88,6 @@ public class CartItemService implements ICartItemService {
 
     @Override
     public CartItemResponse updateItemQuantity(Long cartId, Long cartItemId, int quantity) {
-        // Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new
-        // ResourceNotFoundException("Cart Not Found"));
-
         CartItem cartItem = cartItemRepository.findByIdAndCartId(cartItemId, cartId)
                 .orElseThrow(() -> new ResourceNotFoundException("Cart Item Not Found!"));
 

@@ -1,14 +1,6 @@
 # DreamShops - Spring Boot E-Commerce API
 
-DreamShops is a Spring Boot-based e-commerce backend application. It provides RESTful APIs for managing products, categories, carts, cart items, and images.
-
-## Features
-
-- Product management (CRUD, search, filter)
-- Category management
-- Cart and cart item management
-- Image upload and download for products
-- OpenAPI/Swagger documentation
+DreamShops is a Spring Boot-based e-commerce backend application. It provides RESTful APIs for managing users, products, categories, carts, cart items, orders, and images.
 
 ## Getting Started
 
@@ -32,32 +24,42 @@ Swagger UI: [http://localhost:8080/swagger-ui](http://localhost:8080/swagger-ui)
 
 ## API Endpoints
 
+### Users
+
+| Method | Endpoint                     | Description         |
+| ------ | ---------------------------- | ------------------- |
+| POST   | `/api/v1/user`               | Add a new user      |
+| GET    | `/api/v1/user`               | Get all users       |
+| GET    | `/api/v1/user/{userId}`      | Get user by ID      |
+| GET    | `/api/v1/user/cart/{userId}` | Get cart by user ID |
+| PUT    | `/api/v1/user/{userId}`      | Update user by ID   |
+| DELETE | `/api/v1/user/{userId}`      | Delete user by ID   |
+
 ### Products
 
 | Method | Endpoint                                             | Description                      |
 | ------ | ---------------------------------------------------- | -------------------------------- |
 | GET    | `/api/v1/products`                                   | Get all products                 |
-| GET    | `/api/v1/products/product/{id}`                      | Get product by ID                |
-| DELETE | `/api/v1/products/product/{id}`                      | Delete product by ID             |
+| GET    | `/api/v1/products/product/{productId}`               | Get product by ID                |
+| DELETE | `/api/v1/products/product/{productId}`               | Delete product by ID             |
 | POST   | `/api/v1/products/product/add`                       | Add a new product                |
 | PUT    | `/api/v1/products/product/{productId}`               | Update product by ID             |
 | GET    | `/api/v1/products/category/{category}`               | Get products by category         |
 | GET    | `/api/v1/products/brand/{brand}`                     | Get products by brand            |
 | GET    | `/api/v1/products/category/{category}/brand/{brand}` | Get products by category & brand |
-| GET    | `/api/v1/products/brand/{brand}/name/{name}`         | Get products by brand & name     |
 | GET    | `/api/v1/products/name/{name}`                       | Get products by name             |
 | GET    | `/api/v1/products/count/brand/{brand}/name/{name}`   | Count products by brand & name   |
 
 ### Categories
 
-| Method | Endpoint                                  | Description           |
-| ------ | ----------------------------------------- | --------------------- |
-| GET    | `/api/v1/categories`                      | Get all categories    |
-| POST   | `/api/v1/categories/add`                  | Add a new category    |
-| GET    | `/api/v1/categories/category/{id}`        | Get category by ID    |
-| GET    | `/api/v1/categories/category/name/{name}` | Get category by name  |
-| DELETE | `/api/v1/categories/category/{id}`        | Delete category by ID |
-| PUT    | `/api/v1/categories/category/{id}`        | Update category by ID |
+| Method | Endpoint                                   | Description           |
+| ------ | ------------------------------------------ | --------------------- |
+| GET    | `/api/v1/categories`                       | Get all categories    |
+| POST   | `/api/v1/categories/add`                   | Add a new category    |
+| GET    | `/api/v1/categories/category/{categoryId}` | Get category by ID    |
+| GET    | `/api/v1/categories/category/name/{name}`  | Get category by name  |
+| DELETE | `/api/v1/categories/category/{categoryId}` | Delete category by ID |
+| PUT    | `/api/v1/categories/category/{categoryId}` | Update category by ID |
 
 ### Cart
 
@@ -70,22 +72,29 @@ Swagger UI: [http://localhost:8080/swagger-ui](http://localhost:8080/swagger-ui)
 
 ### Cart Items
 
-| Method | Endpoint                                                                       | Description                  |
-| ------ | ------------------------------------------------------------------------------ | ---------------------------- |
-| GET    | `/api/v1/cartItem`                                                             | Get all cart items           |
-| POST   | `/api/v1/cartItem?cartId={cartId}&productId={productId}&quantity={quantity}`   | Add item to cart             |
-| DELETE | `/api/v1/cartItem?cartId={cartId}&cartItemId={cartItemId}`                     | Remove item from cart        |
-| PUT    | `/api/v1/cartItem?cartId={cartId}&cartItemId={cartItemId}&quantity={quantity}` | Update item quantity in cart |
+| Method | Endpoint           | Description                                                                         |
+| ------ | ------------------ | ----------------------------------------------------------------------------------- |
+| GET    | `/api/v1/cartItem` | Get all cart items                                                                  |
+| POST   | `/api/v1/cartItem` | Add item to cart (`cartId`, `productId`, `quantity` as request params)              |
+| DELETE | `/api/v1/cartItem` | Remove item from cart (`cartId`, `cartItemId` as request params)                    |
+| PUT    | `/api/v1/cartItem` | Update item quantity in cart (`cartId`, `cartItemId`, `quantity` as request params) |
+
+### Orders
+
+| Method | Endpoint                   | Description          |
+| ------ | -------------------------- | -------------------- |
+| POST   | `/api/v1/orders/{userId}`  | Place order for user |
+| GET    | `/api/v1/orders/{orderId}` | Get order by ID      |
 
 ### Images
 
-| Method | Endpoint                                      | Description                 |
-| ------ | --------------------------------------------- | --------------------------- |
-| GET    | `/api/v1/images`                              | Get all images              |
-| POST   | `/api/v1/images/upload?productId={productId}` | Upload images for a product |
-| GET    | `/api/v1/images/image/download/{imageId}`     | Download image by ID        |
-| PUT    | `/api/v1/images/image/update/{imageId}`       | Update image by ID          |
-| DELETE | `/api/v1/images/image/delete/{imageId}`       | Delete image by ID          |
+| Method | Endpoint                                      | Description                                       |
+| ------ | --------------------------------------------- | ------------------------------------------------- |
+| GET    | `/api/v1/images`                              | Get all images                                    |
+| POST   | `/api/v1/images/upload?productId={productId}` | Upload images for a product (multipart/form-data) |
+| GET    | `/api/v1/images/image/download/{imageId}`     | Download image by ID                              |
+| PUT    | `/api/v1/images/image/update/{imageId}`       | Update image by ID (multipart/form-data)          |
+| DELETE | `/api/v1/images/image/delete/{imageId}`       | Delete image by ID                                |
 
 ---
 

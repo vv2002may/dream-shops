@@ -2,7 +2,6 @@ package com.projects.dreamShops.controller;
 
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.projects.dreamShops.exception.ResourceNotFoundException;
 import com.projects.dreamShops.exchange.request.ProductRequest;
 import com.projects.dreamShops.exchange.response.ApiResponse;
 import com.projects.dreamShops.exchange.response.ProductResponse;
@@ -30,144 +28,82 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<ApiResponse> getAllProducts() {
-        try {
-            List<Product> products = productService.getAllProducts();
-            return ResponseEntity
-                    .ok(new ApiResponse("Products fetched successfully", Product.getProductResponses(products)));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponse("Failed to fetch products", e.getMessage()));
-        }
+        List<Product> products = productService.getAllProducts();
+        return ResponseEntity
+                .ok(new ApiResponse("Products fetched successfully", Product.getProductResponses(products)));
     }
 
     @GetMapping("/product/{productId}")
     public ResponseEntity<ApiResponse> getProductById(@PathVariable Long productId) {
-        try {
-            Product product = productService.getProductById(productId);
-            return ResponseEntity
-                    .ok(new ApiResponse("Product fetched successfully", new ProductResponse(product)));
-        } catch (ResourceNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ApiResponse(e.getMessage(), null));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponse("Failed to fetch product", e.getMessage()));
-        }
+        Product product = productService.getProductById(productId);
+        return ResponseEntity
+                .ok(new ApiResponse("Product fetched successfully", new ProductResponse(product)));
     }
 
     @DeleteMapping("/product/{productId}")
     public ResponseEntity<ApiResponse> deleteProduct(@PathVariable Long productId) {
-        try {
-            productService.deleteProduct(productId);
-            return ResponseEntity.ok(new ApiResponse("Product deleted successfully", null));
-        } catch (ResourceNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ApiResponse(e.getMessage(), null));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponse("Failed to delete product", e.getMessage()));
-        }
+        productService.deleteProduct(productId);
+        return ResponseEntity.ok(new ApiResponse("Product deleted successfully", null));
     }
 
     @PostMapping("/product/add")
     public ResponseEntity<ApiResponse> addProduct(@RequestBody ProductRequest productRequest) {
-        try {
-            Product product = productService.addProduct(productRequest);
-            return ResponseEntity
-                    .ok(new ApiResponse("Product added successfully", new ProductResponse(product)));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponse("Failed to add product", e.getMessage()));
-        }
+        Product product = productService.addProduct(productRequest);
+        return ResponseEntity
+                .ok(new ApiResponse("Product added successfully", new ProductResponse(product)));
     }
 
     @PutMapping("/product/{productId}")
     public ResponseEntity<ApiResponse> updateProduct(@RequestBody ProductRequest productRequest,
             @PathVariable Long productId) {
-        try {
-            Product product = productService.updateProduct(productRequest, productId);
-            return ResponseEntity.ok(new ApiResponse("Product updated successfully",
-                    new ProductResponse(product)));
-        } catch (ResourceNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ApiResponse(e.getMessage(), null));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponse("Failed to update product", e.getMessage()));
-        }
+        Product product = productService.updateProduct(productRequest, productId);
+        return ResponseEntity.ok(new ApiResponse("Product updated successfully",
+                new ProductResponse(product)));
     }
 
     @GetMapping("/category/{category}")
     public ResponseEntity<ApiResponse> getProductsByCategory(@PathVariable String category) {
-        try {
-            List<Product> products = productService.getProductsByCategory(category);
-            return ResponseEntity.ok(
-                    new ApiResponse("Products fetched successfully", Product.getProductResponses(products)));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponse("Failed to fetch products", e.getMessage()));
-        }
+        List<Product> products = productService.getProductsByCategory(category);
+        return ResponseEntity.ok(
+                new ApiResponse("Products fetched successfully", Product.getProductResponses(products)));
     }
 
     @GetMapping("/brand/{brand}")
     public ResponseEntity<ApiResponse> getProductsByBrand(@PathVariable String brand) {
-        try {
-            List<Product> products = productService.getProductsByBrand(brand);
-            return ResponseEntity
-                    .ok(new ApiResponse("Products fetched successfully", Product.getProductResponses(products)));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponse("Failed to fetch products", e.getMessage()));
-        }
+        List<Product> products = productService.getProductsByBrand(brand);
+        return ResponseEntity
+                .ok(new ApiResponse("Products fetched successfully", Product.getProductResponses(products)));
     }
 
     @GetMapping("/category/{category}/brand/{brand}")
     public ResponseEntity<ApiResponse> getProductsByCategoryAndBrand(@PathVariable String category,
             @PathVariable String brand) {
-        try {
-            List<Product> products = productService.getProductsByCategoryAndBrand(category, brand);
-            return ResponseEntity.ok(new ApiResponse("Products fetched successfully",
-                    Product.getProductResponses(products)));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponse("Failed to fetch products", e.getMessage()));
-        }
+        List<Product> products = productService.getProductsByCategoryAndBrand(category, brand);
+        return ResponseEntity.ok(new ApiResponse("Products fetched successfully",
+                Product.getProductResponses(products)));
     }
 
-    @GetMapping("/brand/{brand}/name/{name}")
-    public ResponseEntity<ApiResponse> getProductsByBrandAndName(@PathVariable String brand,
-            @PathVariable String name) {
-        try {
-            List<Product> products = productService.getProductsByBrandAndName(brand, name);
-            return ResponseEntity.ok(new ApiResponse("Products fetched successfully",
-                    Product.getProductResponses(products)));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponse("Failed to fetch products", e.getMessage()));
-        }
-    }
+    // @GetMapping("/brand/{brand}/name/{name}")
+    // public ResponseEntity<ApiResponse> getProductsByBrandAndName(@PathVariable
+    // String brand,
+    // @PathVariable String name) {
+    // List<Product> products = productService.getProductsByBrandAndName(brand,
+    // name);
+    // return ResponseEntity.ok(new ApiResponse("Products fetched successfully",
+    // Product.getProductResponses(products)));
+    // }
 
     @GetMapping("/name/{name}")
     public ResponseEntity<ApiResponse> getProductsByName(@PathVariable String name) {
-        try {
-            List<Product> products = productService.getProductsByName(name);
-            return ResponseEntity
-                    .ok(new ApiResponse("Products fetched successfully", Product.getProductResponses(products)));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponse("Failed to fetch products", e.getMessage()));
-        }
+        List<Product> products = productService.getProductsByName(name);
+        return ResponseEntity
+                .ok(new ApiResponse("Products fetched successfully", Product.getProductResponses(products)));
     }
 
     @GetMapping("/count/brand/{brand}/name/{name}")
     public ResponseEntity<ApiResponse> countProductsByBrandAndName(@PathVariable String brand,
             @PathVariable String name) {
-        try {
-            return ResponseEntity.ok(new ApiResponse("Products fetched successfully",
-                    productService.countProductsByBrandAndName(brand, name)));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponse("Failed to fetch products", e.getMessage()));
-        }
+        return ResponseEntity.ok(new ApiResponse("Products fetched successfully",
+                productService.countProductsByBrandAndName(brand, name)));
     }
 }

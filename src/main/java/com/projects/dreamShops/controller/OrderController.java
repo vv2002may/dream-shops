@@ -1,5 +1,7 @@
 package com.projects.dreamShops.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,19 +23,13 @@ public class OrderController {
 
     private final IOrderService orderService;
 
-    // Order placeOrder(Long userId);
-
-    // Order getOrderByUserId(Long userId);
-
-    // List<OrderItem> createOrderItem(Order order, Cart cart);
-
     @PostMapping("/{userId}")
     ResponseEntity<ApiResponse> createOrder(@PathVariable Long userId) {
-        Orders order = orderService.placeOrder(userId);
-        return ResponseEntity.ok(new ApiResponse("success", new OrderResponse(order)));
+        OrderResponse order = orderService.placeOrder(userId);
+        return ResponseEntity.ok(new ApiResponse("success", order));
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/{orderId}")
     public ResponseEntity<ApiResponse> getOrderById(@PathVariable Long orderId) {
         Orders order = orderService.getOrderById(orderId);
         return ResponseEntity.ok(new ApiResponse("success", new OrderResponse(order)));

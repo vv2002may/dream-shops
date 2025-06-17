@@ -36,6 +36,11 @@ public class UsersService implements IUsersService {
     }
 
     @Override
+    public Cart getCartByUserId(Long userId) {
+        return getUsersById(userId).getCart();
+    }
+
+    @Override
     public Users createUsers(UsersRequest usersRequest) {
         Boolean isUser = usersRepository.existsByEmail(usersRequest.getEmail());
         if (isUser) {
@@ -54,7 +59,7 @@ public class UsersService implements IUsersService {
     public Users updateUsers(UsersRequest usersRequest, Long userId) {
         Users user = getUsersById(userId);
         user.setFirstName(usersRequest.getFirstName());
-        user.setLastName(user.getLastName());
+        user.setLastName(usersRequest.getLastName());
         usersRepository.save(user);
         return user;
 

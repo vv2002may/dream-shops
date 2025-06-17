@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UsersResponse {
 
+    private Long userId;
     private String firstName;
     private String lastName;
     private String email;
@@ -23,6 +24,7 @@ public class UsersResponse {
     private List<OrderResponse> orders;
 
     public UsersResponse(Users user) {
+        this.userId = user.getId();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.email = user.getEmail();

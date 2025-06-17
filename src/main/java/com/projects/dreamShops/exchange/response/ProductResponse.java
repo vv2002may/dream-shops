@@ -1,7 +1,6 @@
 package com.projects.dreamShops.exchange.response;
 
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 

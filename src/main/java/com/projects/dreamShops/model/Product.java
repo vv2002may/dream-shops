@@ -58,8 +58,9 @@ public class Product {
         this.name = productRequest.getName() == null ? this.name : productRequest.getName();
         this.brand = productRequest.getBrand() == null ? this.brand : productRequest.getBrand();
         this.price = productRequest.getPrice() == null ? this.price : productRequest.getPrice();
-        this.inventory = productRequest.getInventory() >= 0 ? this.inventory : productRequest.getInventory();
+        this.inventory = productRequest.getInventory() <= 0 ? this.inventory : productRequest.getInventory();
         this.description = productRequest.getDescription() == null ? this.description : productRequest.getDescription();
+
     }
 
     public static List<ProductResponse> getProductResponses(List<Product> products) {

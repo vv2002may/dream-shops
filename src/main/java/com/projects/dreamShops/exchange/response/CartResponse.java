@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.projects.dreamShops.model.Cart;
-import com.projects.dreamShops.model.Users;
 
 import lombok.Data;
 
@@ -17,6 +16,7 @@ public class CartResponse {
     private List<CartItemResponse> cartItems = new ArrayList<>();
 
     public CartResponse(Cart cart) {
+        cart.totalAmountUpdate();
         this.cartId = cart.getId();
         this.totalPrice = cart.getTotalAmount();
         this.userId = cart.getUser().getId();
