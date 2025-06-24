@@ -2,6 +2,8 @@ package com.projects.dreamShops.services.users;
 
 import java.util.List;
 
+import org.apache.catalina.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.projects.dreamShops.exception.ResourceAlreadyExistException;
@@ -19,6 +21,8 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class UsersService implements IUsersService {
+
+    private final PasswordEncoder passwordEncoder;
 
     private final IUsersRepository usersRepository;
     private final ICartService cartService;
@@ -46,12 +50,14 @@ public class UsersService implements IUsersService {
         if (isUser) {
             throw new ResourceAlreadyExistException("User already exists with email " + usersRequest.getEmail());
         }
+        usersRequest.setPassword(passwordEncoder.encode(usersRequest.getPassword()));
+
         Users user = new Users(usersRequest);
         Cart cart = cartService.addCart();
         user.setCart(cart);
         cart.setUser(user);
         Users savedUser = usersRepository.save(user);
-        cartRepository.save(cart);
+        // cartRepository.save(cart);
         return savedUser;
     }
 
@@ -75,6 +81,12 @@ public class UsersService implements IUsersService {
     public List<Orders> getAllOrders(Long userId) {
         Users user = getUsersById(userId);
         return user.getOrders();
+    }
+
+    @Override
+    public User getAuthenticatedUser() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAuthenticatedUser'");
     }
 
 }

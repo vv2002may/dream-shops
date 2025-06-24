@@ -1,0 +1,17 @@
+{"properties": [
+  {
+    "name": "api.prefix",
+    "type": "java.lang.String",
+    "description": "A description for 'api.prefix'"
+  },
+  {
+    "name": "auth.token.jwtSecret",
+    "type": "java.lang.String",
+    "description": "A description for 'auth.token.jwtSecret'"
+  },
+  {
+    "name": "auth.token.expirationInMils",
+    "type": "java.lang.String",
+    "description": "A description for 'auth.token.expirationInMils'"
+  }
+]}

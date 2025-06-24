@@ -2,6 +2,7 @@ package com.projects.dreamShops.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -16,7 +17,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleResourceNotFound(ResourceNotFoundException ex) {
         Map<String, Object> errorBody = new HashMap<>();
         errorBody.put("timestamp", LocalDateTime.now());
-        errorBody.put("status", HttpStatus.NOT_FOUND.value());
         errorBody.put("error", "Resource Not Found");
         errorBody.put("message", ex.getMessage());
 
@@ -27,25 +27,33 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleResourceAlreadyExist(ResourceAlreadyExistException ex) {
         Map<String, Object> errorBody = new HashMap<>();
         errorBody.put("timestamp", LocalDateTime.now());
-        errorBody.put("status", HttpStatus.CONFLICT.value());
         errorBody.put("error", "Resource Already Exists");
         errorBody.put("message", ex.getMessage());
 
         return new ResponseEntity<>(errorBody, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<?> handleAccessDeniedException(AccessDeniedException ex) {
+
+        Map<String, Object> errorBody = new HashMap<>();
+        errorBody.put("timestamp", LocalDateTime.now());
+        errorBody.put("error", "You do not have permission to this action");
+        errorBody.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(errorBody, HttpStatus.FORBIDDEN);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> exception(Exception ex) {
         Map<String, Object> errorBody = new HashMap<>();
         errorBody.put("timestamp", LocalDateTime.now());
-        errorBody.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
-        errorBody.put("error", "INTERNAL SERVER ERROR");
+        errorBody.put("error", "INTERNAL SERVER ERROR" + "123");
         errorBody.put("message", ex.getMessage());
 
         return new ResponseEntity<>(errorBody, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    // You can add more handlers here, e.g., for IllegalArgumentException, etc.
 }
 
 // import org.springframework.stereotype.Controller;

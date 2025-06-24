@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.projects.dreamShops.exchange.response.ApiResponse;
 import com.projects.dreamShops.exchange.response.CartItemResponse;
 import com.projects.dreamShops.exchange.response.CartResponse;
-import com.projects.dreamShops.model.Cart;
 import com.projects.dreamShops.services.cart.ICartItemService;
 
 import lombok.RequiredArgsConstructor;
