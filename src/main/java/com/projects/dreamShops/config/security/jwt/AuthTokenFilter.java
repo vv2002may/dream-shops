@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.projects.dreamShops.config.security.user.ShopUserDetailsService;
 import com.projects.dreamShops.exception.ResourceNotFoundException;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -53,25 +54,32 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             }
         } catch (JwtException e) {
 
-            jwtAuthEntryPoint.commence(request, response, new AuthenticationException(e.getMessage()) {
-            });
-            // response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            // response.setContentType("application/json");
+            // jwtAuthEntryPoint.commence(request, response, new AuthenticationException(
+            // e.getMessage() + "Invalid or expired token. You may login and try again.") {
+            // });
 
-            // Map<String, Object> errorBody = new HashMap<>();
-            // errorBody.put("timestamp", LocalDateTime.now().toString());
-            // errorBody.put("status", HttpServletResponse.SC_UNAUTHORIZED);
-            // errorBody.put("error", "Unauthorized");
-            // errorBody.put("message", "Invalid or expired token. You may login and try
-            // again.");
-            // errorBody.put("exception", e.getMessage());
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
 
-            // ObjectMapper mapper = new ObjectMapper();
-            // mapper.writeValue(response.getWriter(), errorBody);
-            // return;
+            Map<String, Object> errorBody = new HashMap<>();
+            errorBody.put("timestamp", LocalDateTime.now().toString());
+            errorBody.put("status", HttpServletResponse.SC_UNAUTHORIZED);
+            errorBody.put("error", "Unauthorized");
+
+            // Friendly message for end users
+            if (e instanceof ExpiredJwtException) {
+                errorBody.put("message", "Your session has expired. Please log in again.");
+            } else {
+                errorBody.put("message", "Invalid or expired token. You may login and try again.");
+            }
+            errorBody.put("exception", e.getClass().getSimpleName());
+
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.writeValue(response.getWriter(), errorBody);
+            return;
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write(e.getMessage() + " 123");
+            response.getWriter().write(e.getMessage());
             return;
 
         }
