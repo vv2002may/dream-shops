@@ -8,7 +8,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -17,8 +16,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.projects.dreamShops.config.security.user.ShopUserDetailsService;
-import com.projects.dreamShops.exception.ResourceNotFoundException;
-
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
@@ -66,7 +63,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             errorBody.put("status", HttpServletResponse.SC_UNAUTHORIZED);
             errorBody.put("error", "Unauthorized");
 
-            // Friendly message for end users
             if (e instanceof ExpiredJwtException) {
                 errorBody.put("message", "Your session has expired. Please log in again.");
             } else {

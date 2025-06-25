@@ -48,7 +48,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> exception(Exception ex) {
         Map<String, Object> errorBody = new HashMap<>();
         errorBody.put("timestamp", LocalDateTime.now());
-        errorBody.put("error", "INTERNAL SERVER ERROR" + "123");
+        errorBody.put("error", "INTERNAL SERVER ERROR");
+        errorBody.put("exception", ex.getClass().getSimpleName()); // <-- add this
+
         errorBody.put("message", ex.getMessage());
 
         return new ResponseEntity<>(errorBody, HttpStatus.INTERNAL_SERVER_ERROR);

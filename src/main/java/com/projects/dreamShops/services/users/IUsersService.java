@@ -2,8 +2,6 @@ package com.projects.dreamShops.services.users;
 
 import java.util.List;
 
-import org.apache.catalina.User;
-
 import com.projects.dreamShops.exchange.request.UsersRequest;
 import com.projects.dreamShops.model.Cart;
 import com.projects.dreamShops.model.Orders;
@@ -11,7 +9,9 @@ import com.projects.dreamShops.model.Users;
 
 public interface IUsersService {
 
-    Users getUsersById(Long userId);
+    Users getUserById(Long userId);
+
+    void getUserByEmail(String email);
 
     List<Users> getAllUsers();
 
@@ -25,5 +25,4 @@ public interface IUsersService {
 
     List<Orders> getAllOrders(Long userId);
 
-    User getAuthenticatedUser();
 }
